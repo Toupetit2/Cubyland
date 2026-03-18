@@ -1,11 +1,11 @@
 {
     "Entities": [
         {
-            "EntityID": 7,
+            "EntityID": 3,
             "Name": "New Entity",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/TemplateDLL/x64/Release/TemplateProjectDLL.dll"
+                "Path": "Scripts/MapGeneration/x64/Release/MapGeneration.dll"
             },
             "Transform": {
                 "Position": [
