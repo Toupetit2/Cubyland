@@ -416,3 +416,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Photon Engine files
+*.exe
+*.lib
+*/src/
