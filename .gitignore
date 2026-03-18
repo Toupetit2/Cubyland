@@ -420,4 +420,4 @@ FodyWeavers.xsd
 # Photon Engine files
 *.exe
 *.lib
-*/src/
+src/
