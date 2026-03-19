@@ -7,6 +7,8 @@
 #include "pch.h" 
 #include <json.hpp> 
 
+#include "Noise2d.h"
+
  // Depending on your pch, you may need to ensure these namespaces are accessible
 using json = nlohmann::json;
 
@@ -41,6 +43,7 @@ public:
         }
         
         terminal->print("test123");
+		terminal->print(Noise2d::PrintNoise()); 
     }
 
     void OnUpdate(float deltaTime) override {
