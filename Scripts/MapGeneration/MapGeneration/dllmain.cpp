@@ -8,6 +8,7 @@
 #include <json.hpp> 
 
 #include "Noise2d.h"
+#include "mapGeneration.h"
 
  // Depending on your pch, you may need to ensure these namespaces are accessible
 using json = nlohmann::json;
@@ -44,6 +45,17 @@ public:
         
         terminal->print("test123");
 		terminal->print(Noise2d::PrintNoise()); 
+        terminal->print(MapGeneration::drawMap());
+
+        //engine->GetRegistry();
+
+        //ECS::Registry registry;
+
+        ECS::Entity entity = engine->GetRegistry().CreateEntity();
+
+
+        //Components::MeshRenderer& meshRenderer = engine->GetRegistry().GetComponent<Components::MeshRenderer>(entity);
+        //meshRenderer.filePath = "test";
     }
 
     void OnUpdate(float deltaTime) override {

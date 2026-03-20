@@ -6,7 +6,7 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 7,
+            "EntityID": 19,
             "Name": "Main Camera",
             "NativeScript": {
                 "Enabled": true,
@@ -31,11 +31,11 @@
             }
         },
         {
-            "EntityID": 8,
+            "EntityID": 20,
             "Name": "New Entity",
             "NativeScript": {
                 "Enabled": true,
-                "Path": ""
+                "Path": "Scripts/MapGeneration/x64/Release/MapGeneration.dll"
             },
             "Transform": {
                 "Position": [

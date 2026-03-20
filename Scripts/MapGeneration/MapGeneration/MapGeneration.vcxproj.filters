@@ -24,6 +24,12 @@
     <ClInclude Include="Noise2d.h">
       <Filter>Fichiers sources\Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="mapGeneration.h">
+      <Filter>Fichiers sources\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Fichiers sources\Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -33,6 +39,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Noise2d.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mapGeneration.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

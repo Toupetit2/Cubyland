@@ -5,9 +5,10 @@
 
 class Noise2d {
 public:
-	Noise2d(int width, int height, float scale);
-
-	static float GetNoiseValue(float x, float y);
+	static float GetNoiseValue(Vector2<float> pos);
 	static std::string PrintNoise();
 	
+private:
+	static float fade(float t);
+	static float random2D(Vector2<int> pos);
 };
