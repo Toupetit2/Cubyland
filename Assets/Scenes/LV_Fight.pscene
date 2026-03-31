@@ -1,0 +1,79 @@
+{
+    "Entities": [
+        {
+            "EntityID": 3,
+            "Name": "Fight",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/fight"
+            },
+            "Transform": {
+                "Position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "EntityID": 4,
+            "Name": "Player",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/player"
+            },
+            "Transform": {
+                "Position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "EntityID": 5,
+            "Name": "NPC",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/NPC"
+            },
+            "Transform": {
+                "Position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        }
+    ]
+}
