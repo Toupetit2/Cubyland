@@ -1,29 +1,3 @@
 {
-    "Entities": [
-        {
-            "EntityID": 7,
-            "Name": "New Entity",
-            "NativeScript": {
-                "Enabled": true,
-                "Path": "Scripts/TemplateDLL/x64/Release/TemplateProjectDLL.dll"
-            },
-            "Transform": {
-                "Position": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            }
-        }
-    ]
+    "Entities": []
 }
