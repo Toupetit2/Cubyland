@@ -1,9 +1,21 @@
+#include "player.hpp"
+#include "npc.hpp"
 #include "fight.hpp"
+
+//cpp
+
+#include "player.cpp"
+#include "npc.cpp"
 
 
     
     void Fight::fight()
     {
+		if (!player || !opponent)
+		{
+			std::cout << "Error: Player or opponent is null." << std::endl;
+			return;
+		}
         int runAwayCounter = 0;
         bool isRuningAway = false;
 
@@ -11,14 +23,19 @@
         std::cout << "Un dresseur vous attaque!" << std::endl
             << "Le dressseur envoie un " << opponent->getName() << " !" << std::endl;
         std::cin.get();
-        std::cout << player->mapCubies.begin()->get()->getName() << ", GO!" << std::endl;
+        std::cout << (*player->mapCubies.begin())->getName() << ", GO!" << std::endl;
         std::cin.get();
 
         while (isFightOver == false)
         {
-            auto& playerCuby = *player->mapCubies.begin();
-            if (!(player->mapCubies.empty()))
+            if (player->mapCubies.empty())
             {
+				std::cout << "Game over! Votre equipe est decedee" << std::endl;
+				break;
+            }
+            
+                auto& playerCuby = *player->mapCubies.begin();
+            
                 std::cout << "Votre cuby: \n" <<
                     "Nom: " << playerCuby->getName() << "\n"
                     "Niveau: " << playerCuby->getLevelString() << "\n"
@@ -32,7 +49,7 @@
                     "Type: " << opponent->getTypeString() << "\n"
                     "HP: " << opponent->getHP() << "\n"
                     "ATT: " << opponent->getATT() << "\n" << std::endl;
-                isFightOver = playerCuby->attack(opponent);
+                isFightOver = playerCuby->attack(*opponent);
                 if (isFightOver == true)
                 {
                     std::cout << "Victoire!" << std::endl;
@@ -42,7 +59,7 @@
                 {
                     if (player->mapCubies.size() > 0)
                     {
-                        isFightOver = opponent->attack(playerCuby);
+                        isFightOver = opponent->attack(*playerCuby);
                     }
                 }
                 if (isFightOver == true)
@@ -55,13 +72,13 @@
                         break;
                     }
                 }
-            }
+            
         }
     };
 
 
 
-    Fight::Fight(std::unique_ptr<Player>& p, std::unique_ptr<NPC>& n) : player(p), opponent(n)
+    Fight::Fight(std::unique_ptr<Player>& p, std::unique_ptr<NPC>& n) : player(p.get()), opponent(n.get())
     {
 
     }

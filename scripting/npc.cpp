@@ -84,12 +84,12 @@
             break;
         }
     }
-    bool NPC::attack(std::unique_ptr<NPC>& target)
+    bool NPC::attack(NPC& target)
     {
         int damages = ATT;
         std::string efficiencyMessage;
         bool showMessage = false;
-        switch (handleEfficiency(this->type, target->type))
+        switch (handleEfficiency(this->type, target.type))
         {
         case VERY:
             damages *= 2;
@@ -104,12 +104,12 @@
         }
         std::cout << name << " attaque!" << std::endl;
         std::cin.get();
-        if (handleEfficiency(this->type, target->type) == NOT)
+        if (handleEfficiency(this->type, target.type) == NOT)
         {
             efficiencyMessage = "Ce n'est pas tres efficace...";
             showMessage = true;
         }
-        else if (handleEfficiency(this->type, target->type) == VERY)
+        else if (handleEfficiency(this->type, target.type) == VERY)
         {
             efficiencyMessage = "C'est super efficace!";
             showMessage = true;
@@ -119,11 +119,11 @@
             std::cout << efficiencyMessage << std::endl;
             std::cin.get();
         }
-        std::cout << name << " inflige " << damages << " degats a " << target->name << " !" << std::endl;
-        target->HP -= damages;
-        if (target->getHP() <= 0)
+        std::cout << name << " inflige " << damages << " degats a " << target.name << " !" << std::endl;
+        target.HP -= damages;
+        if (target.getHP() <= 0)
         {
-            std::cout << target->getName() << " est mort!" << std::endl;
+            std::cout << target.getName() << " est mort!" << std::endl;
             return true;
         }
         return false;

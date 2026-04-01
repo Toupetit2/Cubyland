@@ -45,6 +45,6 @@ public:
     Vec3& getPlayerPosition();
 
     Efficiency handleEfficiency(Type t1, Type t2);
-    bool attack(std::unique_ptr<NPC>& target);
+    bool attack(NPC& target);
     NPC(Vec3& playerPos);
 };

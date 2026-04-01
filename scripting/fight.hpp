@@ -6,8 +6,8 @@
 class Fight
 {
 public:
-    std::unique_ptr<Player>& player;
-    std::unique_ptr<NPC>& opponent;
+    Player* player;
+    NPC* opponent;
     void fight();
 
 
