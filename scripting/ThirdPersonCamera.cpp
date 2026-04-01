@@ -48,7 +48,7 @@ public:
 
     void FindTarget() {
         for (auto e : registry->View<Engine::Components::Transform>()) {
-            if (registry->GetEntityName(e) == "Character") {
+            if (registry->GetEntityName(e) == "Cam") {
                 targetEntity = e;
                 break;
             }

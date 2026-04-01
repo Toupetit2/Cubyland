@@ -1,29 +1,52 @@
-#include "npc.hpp"
+#include "script_pch.h"
+#include <memory>
+#include <iostream>
+#include <string>
+#include "cubylandCore.h"
+
+#ifdef _WIN32
+    #define SCRIPT_API __declspec(dllexport)
+#else
+    #define SCRIPT_API __attribute__((visibility("default")))
+#endif
+
+class NPC : public Engine::Scripting::NativeScript
+{
+private:
+    int ATT = 0;
+    int HP = 0;
+    int XP = 0;
+    bool isCubyVar = false;
+    std::string name = "NAME";
+    Type type = FIRE;
+    Vec3 position;
+    Vec3& playerPos;
+    Level level = Level::Lv1;
+
+public:
+    int getATT() { return ATT; }
+    void setATT(int newATT) { ATT = newATT; }
+
+    int getHP() { return HP; }
+    void setHP(int newHP) { HP = newHP; }
+
+    int getXP() { return XP; }
+    void setXP(int newXP) { XP = newXP; }
+
+    bool isCuby() { return isCubyVar; }
+    void setIsCuby(bool newStatus) { isCubyVar = newStatus; }
+
+    std::string getName() { return name; }
+    void setName(std::string newName) { name = newName; }
+
+    Type getType() { return type; }
+    void setType(Type newType) { type = newType; }
+
+    Level getLevel() { return level; }
+    void setLevel(Level newLevel) { level = newLevel; }
 
 
-    int NPC::getATT() { return ATT; }
-    void NPC::setATT(int newATT) { ATT = newATT; }
-
-    int NPC::getHP() { return HP; }
-    void NPC::setHP(int newHP) { HP = newHP; }
-
-    int NPC::getXP() { return XP; }
-    void NPC::setXP(int newXP) { XP = newXP; }
-
-    bool NPC::isCuby() { return isCubyVar; }
-    void NPC::setIsCuby(bool newStatus) { isCubyVar = newStatus; }
-
-    std::string NPC::getName() { return name; }
-    void NPC::setName(std::string newName) { name = newName; }
-
-    Type NPC::getType() { return type; }
-    void NPC::setType(Type newType) { type = newType; }
-
-    Level NPC::getLevel() { return level; }
-    void NPC::setLevel(Level newLevel) { level = newLevel; }
-
-
-    std::string NPC::getTypeString() {
+    std::string getTypeString() {
         switch (type)
         {
         case Type::FIRE:
@@ -39,7 +62,7 @@
             break;
         }
     }
-    std::string NPC::getLevelString()
+    std::string getLevelString()
     {
         switch (level)
         {
@@ -56,9 +79,9 @@
             break;
         }
     }
-    Vec3& NPC::getPlayerPosition() { return playerPos; }
+    Vec3& getPlayerPosition() { return playerPos; }
 
-    Efficiency NPC::handleEfficiency(Type t1, Type t2)
+    Efficiency handleEfficiency(Type t1, Type t2)
     {
         switch (t1)
         {
@@ -84,12 +107,12 @@
             break;
         }
     }
-    bool NPC::attack(NPC& target)
+    bool attack(std::unique_ptr<NPC>& target)
     {
         int damages = ATT;
         std::string efficiencyMessage;
         bool showMessage = false;
-        switch (handleEfficiency(this->type, target.type))
+        switch (handleEfficiency(this->type, target->type))
         {
         case VERY:
             damages *= 2;
@@ -104,12 +127,12 @@
         }
         std::cout << name << " attaque!" << std::endl;
         std::cin.get();
-        if (handleEfficiency(this->type, target.type) == NOT)
+        if (handleEfficiency(this->type, target->type) == NOT)
         {
             efficiencyMessage = "Ce n'est pas tres efficace...";
             showMessage = true;
         }
-        else if (handleEfficiency(this->type, target.type) == VERY)
+        else if (handleEfficiency(this->type, target->type) == VERY)
         {
             efficiencyMessage = "C'est super efficace!";
             showMessage = true;
@@ -119,13 +142,19 @@
             std::cout << efficiencyMessage << std::endl;
             std::cin.get();
         }
-        std::cout << name << " inflige " << damages << " degats a " << target.name << " !" << std::endl;
-        target.HP -= damages;
-        if (target.getHP() <= 0)
+        std::cout << name << " inflige " << damages << " degats a " << target->name << " !" << std::endl;
+        target->HP -= damages;
+        if (target->getHP() <= 0)
         {
-            std::cout << target.getName() << " est mort!" << std::endl;
+            std::cout << target->getName() << " est mort!" << std::endl;
             return true;
         }
         return false;
     }
-    NPC::NPC(Vec3& playerPos) : playerPos(playerPos) {}
+    NPC(Vec3& playerPos) : playerPos(playerPos) {}
+
+};
+
+extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateNPC() {
+    return new NPC(Vec3());
+}
