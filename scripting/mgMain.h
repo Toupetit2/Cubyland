@@ -2,7 +2,7 @@
 
 #include <MathsLib/Vector2.h>
 #include "Types.h"
-#include "Noise2d.h"
+#include "mgNoise2d.h"
 
 class MapGeneration
 {

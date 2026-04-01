@@ -1,14 +1,8 @@
-/*
- * template_V3.cpp
- * A comprehensive "kitchen sink" template for the Photon Engine.
- * Updated for modern ECS Architecture.
- */
-
-#include "pch.h" 
+#include "script_pch.h" 
 #include <json.hpp> 
 
-#include "Noise2d.h"
-#include "mapGeneration.h"
+#include "mgNoise2d.h"
+#include "mgMain.h"
 
  // Depending on your pch, you may need to ensure these namespaces are accessible
 using json = nlohmann::json;
@@ -18,7 +12,7 @@ using namespace Engine;
 class TemplateV3 : public Engine::Scripting::NativeScript {
 public:
     // --- Public Configurable Variables ---
-    
+
 
 private:
     // --- System Pointers ---
@@ -42,9 +36,9 @@ public:
         if (!funcRegistry && terminal) {
             terminal->error("TemplateV3: FunctionRegisterySystem not found!");
         }
-        
+
         terminal->print("test123");
-		terminal->print(Noise2d::PrintNoise()); 
+        terminal->print(Noise2d::PrintNoise());
         terminal->print(MapGeneration::drawMap());
 
         //engine->GetRegistry();
