@@ -48,7 +48,7 @@ public:
 
     void FindTarget() {
         for (auto e : registry->View<Engine::Components::Transform>()) {
-            if (registry->GetEntityName(e) == "Character") {
+            if (registry->GetEntityName(e) == "player") {
                 targetEntity = e;
                 break;
             }
@@ -128,20 +128,33 @@ public:
             
             // Flatten camera forward vector to move character along the XZ plane
             glm::vec3 flatForward = glm::normalize(glm::vec3(cameraTransform.Forward.x, 0.0f, cameraTransform.Forward.z));
+            glm::vec3 flatRight = glm::normalize(glm::cross(flatForward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
             if (isMouseCaptured) { // Optional: only move character if camera is captured
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_W)) { //
                     targetTransform.Position += flatForward * moveSpeed * dt;
                     targetMoveState = 1.0f; // Walk forward
-                    
-                    // Optional: Rotate character model to face the forward direction
-                    targetTransform.Rotation.y = yaw + 180.0f;
+
+                    targetTransform.Rotation.y = yaw + 180.f;                 
                 }
-                if (InputSysteminstance->GetKeyState(GLFW_KEY_S)) {
+                if (InputSysteminstance->GetKeyState(GLFW_KEY_S)) { //
                     targetTransform.Position -= flatForward * moveSpeed * dt;
-                    targetMoveState = -1.0f; // Walk backward
+                    targetMoveState = -1.0f; // Walk forward
+
+                    targetTransform.Rotation.y = yaw + 180.f;
                     
-                    targetTransform.Rotation.y = yaw + 180.0f;
+                }
+                if (InputSysteminstance->GetKeyState(GLFW_KEY_D)) {
+                    targetTransform.Position += flatRight * moveSpeed* dt;
+                    targetMoveState = 1.0f; // Walk backward
+                    
+                    
+                }
+                if (InputSysteminstance->GetKeyState(GLFW_KEY_A)) {
+                    targetTransform.Position -= flatRight * moveSpeed * dt;
+                    targetMoveState = -1.0f; // Walk backward
+
+                    
                 }
             }
 
