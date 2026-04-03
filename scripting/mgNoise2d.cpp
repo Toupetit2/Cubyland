@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "Noise2d.h"
+#include "mgNoise2d.h"
 
-float Noise2d::random2D(Vector2<int> pos) {
-	int n = pos.x * 374761393 + pos.y * 668265263; // gros nombres premiers
+float Noise2d::random2D(int posX, int posY) {
+	int n = posX * 374761393 + posY * 668265263; // gros nombres premiers
 	n = (n ^ (n >> 13)) * 1274126177;
 	n = n ^ (n >> 16);
 
@@ -13,38 +13,34 @@ float Noise2d::fade(float t) {
 	return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-float Noise2d::GetNoiseValue(Vector2<float> pos)
+float Noise2d::GetNoiseValue(float posX, float posY)
 {
 	// nb case
-	int i = floor(pos.x);
-	int j = floor(pos.y);
+	int i = floor(posX);
+	int j = floor(posY);
 
 	// position dans la case
-	float u = pos.x - i;
-	float v = pos.y - j;
+	float u = posX - i;
+	float v = posY - j;
 
 	// valeur coins
-	float v00 = random2D(Vector2<int>(i, j));
-	float v10 = random2D(Vector2<int>(i + 1, j));
-	float v01 = random2D(Vector2<int>(i, j + 1));
-	float v11 = random2D(Vector2<int>(i + 1, j + 1));
+	float v00 = random2D(i, j);
+	float v10 = random2D(i + 1, j);
+	float v01 = random2D(i, j + 1);
+	float v11 = random2D(i + 1, j + 1);
 
 	float fadeU = fade(u);
 	float fadeV = fade(v);
 
 	float a = std::lerp(v00, v10, fadeU);
 	float b = std::lerp(v01, v11, fadeU);
-
+	
 	return std::lerp(a, b, fadeV);
 }
 
-#include <iostream>
-#include <string>
-
-std::string chars = " .:-=+*#%@";
-
 std::string Noise2d::PrintNoise()
 {
+	std::string chars = " .:-=+*#%@";
 	std::string noiseString;
 
 	int width = 80;
@@ -55,7 +51,7 @@ std::string Noise2d::PrintNoise()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			float n = Noise2d::GetNoiseValue(Vector2<float>(x * scale, y * scale));
+			float n = Noise2d::GetNoiseValue(x * scale, y * scale);
 
 			// si ton noise est [0,1]
 			int index = n * (chars.size() - 1);
@@ -64,5 +60,6 @@ std::string Noise2d::PrintNoise()
 		}
 		noiseString += "\n";
 	}
+
 	return noiseString;
 }
