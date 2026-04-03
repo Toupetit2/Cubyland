@@ -1,29 +1,13 @@
-#include "script_pch.h"
-#include <vector>
-#include <memory>
-#include "cubylandCore.h"
-#include "npc.cpp"
-#ifdef _WIN32
-#define SCRIPT_API __declspec(dllexport)
-#else
-#define SCRIPT_API __attribute__((visibility("default")))
-#endif
-
-class NPC;
-
-class Player : public Engine::Scripting::NativeScript
-{
-public:
-    std::vector<std::unique_ptr<NPC>> mapCubies;
-    Vec3 vector1;
-    void getComponent() {};
-    void setComponent() {};
+#include "player.hpp"
 
 
-    void move() {};
-    void update() {};
-};
+    void Player::getComponent() {}
+    void Player::setComponent() {}
 
-extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreatePlayer() {
+
+    void Player::move() {}
+    void Player::update() {}
+
+extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
     return new Player();
 }

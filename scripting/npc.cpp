@@ -1,52 +1,29 @@
-#include "script_pch.h"
-#include <memory>
-#include <iostream>
-#include <string>
-#include "cubylandCore.h"
-
-#ifdef _WIN32
-    #define SCRIPT_API __declspec(dllexport)
-#else
-    #define SCRIPT_API __attribute__((visibility("default")))
-#endif
-
-class NPC : public Engine::Scripting::NativeScript
-{
-private:
-    int ATT = 0;
-    int HP = 0;
-    int XP = 0;
-    bool isCubyVar = false;
-    std::string name = "NAME";
-    Type type = FIRE;
-    Vec3 position;
-    Vec3& playerPos;
-    Level level = Level::Lv1;
-
-public:
-    int getATT() { return ATT; }
-    void setATT(int newATT) { ATT = newATT; }
-
-    int getHP() { return HP; }
-    void setHP(int newHP) { HP = newHP; }
-
-    int getXP() { return XP; }
-    void setXP(int newXP) { XP = newXP; }
-
-    bool isCuby() { return isCubyVar; }
-    void setIsCuby(bool newStatus) { isCubyVar = newStatus; }
-
-    std::string getName() { return name; }
-    void setName(std::string newName) { name = newName; }
-
-    Type getType() { return type; }
-    void setType(Type newType) { type = newType; }
-
-    Level getLevel() { return level; }
-    void setLevel(Level newLevel) { level = newLevel; }
+#include "npc.hpp"
 
 
-    std::string getTypeString() {
+    int NPC::getATT() { return ATT; }
+    void NPC::setATT(int newATT) { ATT = newATT; }
+
+    int NPC::getHP() { return HP; }
+    void NPC::setHP(int newHP) { HP = newHP; }
+
+    int NPC::getXP() { return XP; }
+    void NPC::setXP(int newXP) { XP = newXP; }
+
+    bool NPC::isCuby() { return isCubyVar; }
+    void NPC::setIsCuby(bool newStatus) { isCubyVar = newStatus; }
+
+    std::string NPC::getName() { return name; }
+    void NPC::setName(std::string newName) { name = newName; }
+
+    Type NPC::getType() { return type; }
+    void NPC::setType(Type newType) { type = newType; }
+
+    Level NPC::getLevel() { return level; }
+    void NPC::setLevel(Level newLevel) { level = newLevel; }
+
+
+    std::string NPC::getTypeString() {
         switch (type)
         {
         case Type::FIRE:
@@ -62,7 +39,7 @@ public:
             break;
         }
     }
-    std::string getLevelString()
+    std::string NPC::getLevelString()
     {
         switch (level)
         {
@@ -79,9 +56,9 @@ public:
             break;
         }
     }
-    Vec3& getPlayerPosition() { return playerPos; }
+    Vec3& NPC::getPlayerPosition() { return playerPos; }
 
-    Efficiency handleEfficiency(Type t1, Type t2)
+    Efficiency NPC::handleEfficiency(Type t1, Type t2)
     {
         switch (t1)
         {
@@ -107,7 +84,7 @@ public:
             break;
         }
     }
-    bool attack(std::unique_ptr<NPC>& target)
+    bool NPC::attack(std::unique_ptr<NPC>& target)
     {
         int damages = ATT;
         std::string efficiencyMessage;
@@ -151,10 +128,8 @@ public:
         }
         return false;
     }
-    NPC(Vec3& playerPos) : playerPos(playerPos) {}
+    NPC::NPC(Vec3& playerPos) : playerPos(playerPos) {}
 
-};
-
-extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateNPC() {
+extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
     return new NPC(Vec3());
 }
