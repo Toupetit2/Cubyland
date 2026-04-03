@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 23,
+            "EntityID": 113,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -10,12 +10,12 @@
             "Transform": {
                 "Position": [
                     0.0,
-                    0.0,
+                    -0.30000001192092896,
                     0.0
                 ],
                 "Rotation": [
                     0.0,
-                    0.0,
+                    -0.0,
                     0.0
                 ],
                 "Scale": [
@@ -26,7 +26,7 @@
             }
         },
         {
-            "EntityID": 24,
+            "EntityID": 114,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -67,7 +67,7 @@
             }
         },
         {
-            "EntityID": 25,
+            "EntityID": 115,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cone_mesh.pa"
@@ -76,7 +76,7 @@
             "Transform": {
                 "Position": [
                     0.3999999761581421,
-                    0.10000000149011612,
+                    -0.20000000298023224,
                     -0.10000000894069672
                 ],
                 "Rotation": [
@@ -97,7 +97,7 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 26,
+            "EntityID": 116,
             "Name": "Main Camera",
             "NativeScript": {
                 "Enabled": true,
@@ -118,6 +118,35 @@
                     1.0,
                     1.0,
                     1.0
+                ]
+            }
+        },
+        {
+            "EntityID": 117,
+            "MeshRenderer": {
+                "Active": true,
+                "Path": "Assets\\Default\\Cube_mesh.pa"
+            },
+            "Name": "cuby1",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/Cuby1.dll"
+            },
+            "Transform": {
+                "Position": [
+                    -0.30000001192092896,
+                    -0.20000001788139343,
+                    -0.10000000149011612
+                ],
+                "Rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "Scale": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
                 ]
             }
         }

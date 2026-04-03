@@ -7,6 +7,7 @@
     #define SCRIPT_API __attribute__((visibility("default")))
 #endif
 
+
 class ThirdPersonCamera : public Engine::Scripting::NativeScript {
 public:
     float distance = 0.2f;
