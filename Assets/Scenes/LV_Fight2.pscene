@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 3,
+            "EntityID": 39,
             "Name": "Fight",
             "NativeScript": {
                 "Enabled": true,
@@ -26,21 +26,26 @@
             }
         },
         {
-            "EntityID": 4,
-            "Name": "Player",
+            "Camera": {
+                "FarPlane": 1000.0,
+                "Fov": 80.0,
+                "NearPlane": 0.009999999776482582
+            },
+            "EntityID": 46,
+            "Name": "Cam",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/player.dll"
+                "Path": "Scripts/ThirdPersonCamera.dll"
             },
             "Transform": {
                 "Position": [
-                    0.0,
-                    0.0,
-                    0.0
+                    -1.100000023841858,
+                    0.29999998211860657,
+                    0.7000000476837158
                 ],
                 "Rotation": [
                     0.0,
-                    0.0,
+                    -45.0,
                     0.0
                 ],
                 "Scale": [
@@ -51,32 +56,32 @@
             }
         },
         {
-            "EntityID": 5,
-            "Name": "NPC",
-            "NativeScript": {
-                "Enabled": true,
-                "Path": "Scripts/NPC.dll"
+            "EntityID": 45,
+            "MeshRenderer": {
+                "Active": true,
+                "Path": "Assets\\Default\\Cube_mesh.pa"
             },
+            "Name": "Player_cuby",
             "Transform": {
                 "Position": [
-                    0.0,
-                    0.0,
-                    0.0
+                    -0.699999988079071,
+                    0.10000000149011612,
+                    3.725290298461914e-08
                 ],
                 "Rotation": [
                     0.0,
-                    0.0,
+                    -0.0,
                     0.0
                 ],
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
             }
         },
         {
-            "EntityID": 6,
+            "EntityID": 42,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -101,7 +106,7 @@
             }
         },
         {
-            "EntityID": 7,
+            "EntityID": 43,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -142,7 +147,7 @@
             }
         },
         {
-            "EntityID": 8,
+            "EntityID": 44,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -163,61 +168,6 @@
                     0.10000000149011612,
                     0.10000000149011612,
                     0.10000000149011612
-                ]
-            }
-        },
-        {
-            "EntityID": 9,
-            "MeshRenderer": {
-                "Active": true,
-                "Path": "Assets\\Default\\Cube_mesh.pa"
-            },
-            "Name": "Player_cuby",
-            "Transform": {
-                "Position": [
-                    -0.699999988079071,
-                    0.10000000149011612,
-                    3.725290298461914e-08
-                ],
-                "Rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "Scale": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            }
-        },
-        {
-            "Camera": {
-                "FarPlane": 1000.0,
-                "Fov": 80.0,
-                "NearPlane": 0.009999999776482582
-            },
-            "EntityID": 10,
-            "Name": "Cam",
-            "NativeScript": {
-                "Enabled": true,
-                "Path": "Scripts/ThirdPersonCamera.dll"
-            },
-            "Transform": {
-                "Position": [
-                    -1.100000023841858,
-                    0.29999998211860657,
-                    0.7000000476837158
-                ],
-                "Rotation": [
-                    0.0,
-                    -45.0,
-                    0.0
-                ],
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
                 ]
             }
         }

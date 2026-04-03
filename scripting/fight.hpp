@@ -10,6 +10,7 @@
 #else
 #define SCRIPT_API __attribute__((visibility("default")))
 #endif
+
 enum Type { FIRE, WATER, GRASS };
 enum Level { Lv1, Lv2, Lv3 };
 enum Efficiency { NOT, EFFICIENT, VERY };
@@ -33,7 +34,8 @@ private:
     Vec3 position;
     Vec3& playerPos;
     Level level = Level::Lv1;
-
+    bool wantsToRunAway = false;
+    int runAwayCounter = 2;
 public:
     int getATT();
     void setATT(int newATT);
@@ -63,7 +65,10 @@ public:
 
     Efficiency handleEfficiency(Type t1, Type t2);
     bool attack(std::unique_ptr<NPC>& target);
+    bool runningAway();
     NPC(Vec3& playerPos);
+    bool getWantsToRunAway();
+    void toggleWantsToRunAway();
 
 };
 
@@ -85,9 +90,13 @@ public:
 class Fight : public Engine::Scripting::NativeScript
 {
 public:
+    void OnInit() override {};
+    void OnCreate() override { fight(); };
+    void OnUpdate(float dt) override {};
     std::unique_ptr<Player>& player;
     std::unique_ptr<NPC>& opponent;
     void fight();
+    void printControls(std::unique_ptr<NPC>& attacker, std::unique_ptr<NPC>& defender);
 
     Fight(std::unique_ptr<Player>& p, std::unique_ptr<NPC>& n);
 };
