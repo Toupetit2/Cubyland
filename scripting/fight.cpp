@@ -34,7 +34,7 @@ private:
     bool wantsToRunAway = false;
     int runAwayCounter = 2;
 public:
-    
+
     int getATT() { return ATT; }
     void setATT(int newATT) { ATT = newATT; }
 
@@ -136,7 +136,7 @@ public:
             break;
         }
         std::cout << name << " attaque!" << std::endl;
-        std::cin.get();
+        // std::cin.get();
         if (handleEfficiency(this->type, target->type) == NOT)
         {
             efficiencyMessage = "Ce n'est pas tres efficace...";
@@ -150,7 +150,7 @@ public:
         if (showMessage)
         {
             std::cout << efficiencyMessage << std::endl;
-            std::cin.get();
+            // std::cin.get();
         }
         std::cout << name << " inflige " << damages << " degats a " << target->name << " !" << std::endl;
         target->HP -= damages;
@@ -211,8 +211,8 @@ public:
 class Fight : public Engine::Scripting::NativeScript
 {
 public:
-    void OnInit() override { };
-    void OnCreate() override {};
+    void OnInit() override {};
+    void OnCreate() override { fight(); };
     void OnUpdate(float dt) override {};
     void fight()
     {
@@ -222,111 +222,112 @@ public:
         bool isFightOver = false;
         std::cout << "Un dresseur vous attaque!" << std::endl
             << "Le dressseur envoie un " << opponent->getName() << " !" << std::endl;
-        std::cin.get();
+         std::cin.get();
         std::cout << player->mapCubies.begin()->get()->getName() << ", GO!" << std::endl;
-        std::cin.get();
+         std::cin.get();
 
-        while (isFightOver == false)
-        {
-            auto& playerCuby = *player->mapCubies.begin();
-            if (!(player->mapCubies.empty()))
-            {
-                std::cout << "Votre cuby: \n" <<
-                    "Nom: " << playerCuby->getName() << "\n"
-                    "Niveau: " << playerCuby->getLevelString() << "\n"
-                    "Type: " << playerCuby->getTypeString() << "\n"
-                    "HP: " << playerCuby->getHP() << "\n"
-                    "ATT: " << playerCuby->getATT() << "\n" << std::endl;
-                std::cout << "--------------------------------------------" << std::endl;
-                std::cout << "Cuby ennemi: \n" <<
-                    "Nom: " << opponent->getName() << "\n"
-                    "Niveau: " << opponent->getLevelString() << "\n"
-                    "Type: " << opponent->getTypeString() << "\n"
-                    "HP: " << opponent->getHP() << "\n"
-                    "ATT: " << opponent->getATT() << "\n" << std::endl;
-                if (!playerCuby->getWantsToRunAway())
-                {
-                    printControls(playerCuby, opponent);
-                }
-                else
-                {
-                    if (playerCuby->runningAway())
-                        isFightOver = true;
-                }
+         while (isFightOver == false)
+         {
+             auto& playerCuby = *player->mapCubies.begin();
+             if (!(player->mapCubies.empty()))
+             {
+                 std::cout << "Votre cuby: \n" <<
+                     "Nom: " << playerCuby->getName() << "\n"
+                     "Niveau: " << playerCuby->getLevelString() << "\n"
+                     "Type: " << playerCuby->getTypeString() << "\n"
+                     "HP: " << playerCuby->getHP() << "\n"
+                     "ATT: " << playerCuby->getATT() << "\n" << std::endl;
+                 std::cout << "--------------------------------------------" << std::endl;
+                 std::cout << "Cuby ennemi: \n" <<
+                     "Nom: " << opponent->getName() << "\n"
+                     "Niveau: " << opponent->getLevelString() << "\n"
+                     "Type: " << opponent->getTypeString() << "\n"
+                     "HP: " << opponent->getHP() << "\n"
+                     "ATT: " << opponent->getATT() << "\n" << std::endl;
+                 if (!playerCuby->getWantsToRunAway())
+                 {
+                     printControls(playerCuby, opponent);
+                 }
+                 else
+                 {
+                     if (playerCuby->runningAway())
+                         isFightOver = true;
+                 }
 
-                if (playerCuby->getHP() <= 0 || opponent->getHP() <= 0)
-                {
-                    isFightOver = true;
-                }
-                if (isFightOver == false)
-                {
-                    if (player->mapCubies.size() > 0)
-                    {
-                        isFightOver = opponent->attack(playerCuby);
-                    }
-                }
-                if (isFightOver == true)
-                {
-                    if (!(player->mapCubies.empty()))
-                    {
-                        if (playerCuby->getHP() < 0)
-                        {
-                            player->mapCubies.erase(player->mapCubies.begin());
-                            std::cout << "Game over! Votre cuby est decede" << std::endl;
-                            std::cout << "Taille de votre equipe: " << player->mapCubies.size();
-                            return;
-                        }
-                        else if (playerCuby->getWantsToRunAway() == false)
-                        {
-                            std::cout << "Victoire!" << std::endl;
-                            return;
-                        }
-                        else
-                        {
-                            std::cout << "Vous avez fuit comme une poule mouillee, gros noob" << std::endl;
-                        }
-                    }
-                }
-            }
-        }
+                 if (playerCuby->getHP() <= 0 || opponent->getHP() <= 0)
+                 {
+                     isFightOver = true;
+                 }
+                 if (isFightOver == false)
+                 {
+                     if (player->mapCubies.size() > 0)
+                     {
+                         isFightOver = opponent->attack(playerCuby);
+                     }
+                 }
+                 if (isFightOver == true)
+                 {
+                     if (!(player->mapCubies.empty()))
+                     {
+                         if (playerCuby->getHP() < 0)
+                         {
+                             player->mapCubies.erase(player->mapCubies.begin());
+                             std::cout << "Game over! Votre cuby est decede" << std::endl;
+                             std::cout << "Taille de votre equipe: " << player->mapCubies.size();
+                             return;
+                         }
+                         else if (playerCuby->getWantsToRunAway() == false)
+                         {
+                             std::cout << "Victoire!" << std::endl;
+                             return;
+                         }
+                         else
+                         {
+                             std::cout << "Vous avez fuit comme une poule mouillee, gros noob" << std::endl;
+                         }
+                     }
+                 }
+             }
+         }
     }
     void printControls(std::unique_ptr<NPC>& attacker, std::unique_ptr<NPC>& defender)
     {
         bool completed = false;
         char command = '0';
 
-        while (!completed)
-        {
-            std::cout << "A: attaquer \n E: Fuite" << std::endl;
-            std::cin >> command;
-            if (command != 'A' && command != 'a' && command != 'E' && command != 'e')
-            {
-                std::cout << "Erreur: commande non valide." << std::endl;
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                continue;
-            }
-            else if (command == 'A' || command == 'a')
-            {
-                completed = true;
-                attacker->attack(defender);
-                break;
-            }
-            else if (command == 'E' || command == 'e')
-            {
-                completed = true;
-                attacker->toggleWantsToRunAway();
-                break;
-            }
-        }
+         while (!completed)
+         {
+             std::cout << "A: attaquer \n E: Fuite" << std::endl;
+             std::cin >> command;
+             if (command != 'A' && command != 'a' && command != 'E' && command != 'e')
+             {
+                 std::cout << "Erreur: commande non valide." << std::endl;
+                 std::cin.clear();
+                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                 continue;
+             }
+             else if (command == 'A' || command == 'a')
+             {
+                 completed = true;
+                 attacker->attack(defender);
+                 break;
+             }
+             else if (command == 'E' || command == 'e')
+             {
+                 completed = true;
+                 attacker->toggleWantsToRunAway();
+                 break;
+             }
+         }
     }
-    Fight(std::unique_ptr<Player>& p, std::unique_ptr<NPC>& n) : player(p), opponent(n)
+    Fight(std::unique_ptr<Player> p, std::unique_ptr<NPC> n)
+        : player(std::move(p)), opponent(std::move(n))
     {
     }
 
-    std::unique_ptr<Player>& player;
-    std::unique_ptr<NPC>& opponent;
-    
+    std::unique_ptr<Player> player;
+    std::unique_ptr<NPC> opponent;
+
 };
 
 
@@ -362,5 +363,5 @@ extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
     opponent->setLevel(Level::Lv3);
     opponent->setATT(30);
     opponent->setHP(150);
-    return new Fight(player, opponent);
+    return new Fight(std::move(player), std::move(opponent));
 }
