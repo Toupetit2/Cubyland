@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <imgui.h>
+#include "Systems/FunctionRegistrySystem.h"
 #ifdef _WIN32
 #define SCRIPT_API __declspec(dllexport)
 #else
@@ -33,6 +35,7 @@ private:
     Level level = Level::Lv1;
     bool wantsToRunAway = false;
     int runAwayCounter = 2;
+    
 public:
 
     int getATT() { return ATT; }
@@ -69,6 +72,7 @@ public:
             return "Plante";
             break;
         default:
+            return "Feu";
             break;
         }
     }
@@ -86,6 +90,7 @@ public:
             return "3";
             break;
         default:
+            return "1";
             break;
         }
     }
@@ -114,6 +119,7 @@ public:
                 return Efficiency::VERY;
             break;
         default:
+            return Efficiency::EFFICIENT;
             break;
         }
     }
@@ -211,84 +217,112 @@ public:
 class Fight : public Engine::Scripting::NativeScript
 {
 public:
-    void OnInit() override {};
-    void OnCreate() override { fight(); };
-    void OnUpdate(float dt) override {};
+    void DrawHUD() {
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing;
+        ImGui::Begin("Player HUD", nullptr, window_flags);
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "HEALTH: %d", player->mapCubies.front()->getHP());
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "OPPONENT HEALTH: %d", opponent->getHP());
+        ImGui::End();
+    }
+    bool execute = true;
+    void OnInit() override { 
+        if (Engine::Systems::ImGuiSystem* ImGuiSystem = engine->GetSystem<Engine::Systems::ImGuiSystem>()) {
+            ImGuiSystem->RegisterUICallback("DrawPlayerHUD", [this]() {
+                this->DrawHUD();
+                });
+        }
+
+    };
+    void OnCreate() override { };
+    void OnDestroy() override {
+        if (Engine::Systems::ImGuiSystem* ImGuiSystem = engine->GetSystem<Engine::Systems::ImGuiSystem>()) {
+            ImGuiSystem->UnregisterUICallback("DrawPlayerHUD");
+        }
+    }
+    void OnUpdate(float dt) override {
+    };
     void fight()
     {
-        int runAwayCounter = 0;
-        bool isRuningAway = false;
+            ImGui::Begin("Test de fonctionnement");
 
-        bool isFightOver = false;
-        std::cout << "Un dresseur vous attaque!" << std::endl
-            << "Le dressseur envoie un " << opponent->getName() << " !" << std::endl;
-         std::cin.get();
-        std::cout << player->mapCubies.begin()->get()->getName() << ", GO!" << std::endl;
-         std::cin.get();
+            if (ImGui::Button("Cliquer ici")) {
+                std::cout << "Ok" << std::endl;
+            }
 
-         while (isFightOver == false)
-         {
-             auto& playerCuby = *player->mapCubies.begin();
-             if (!(player->mapCubies.empty()))
-             {
-                 std::cout << "Votre cuby: \n" <<
-                     "Nom: " << playerCuby->getName() << "\n"
-                     "Niveau: " << playerCuby->getLevelString() << "\n"
-                     "Type: " << playerCuby->getTypeString() << "\n"
-                     "HP: " << playerCuby->getHP() << "\n"
-                     "ATT: " << playerCuby->getATT() << "\n" << std::endl;
-                 std::cout << "--------------------------------------------" << std::endl;
-                 std::cout << "Cuby ennemi: \n" <<
-                     "Nom: " << opponent->getName() << "\n"
-                     "Niveau: " << opponent->getLevelString() << "\n"
-                     "Type: " << opponent->getTypeString() << "\n"
-                     "HP: " << opponent->getHP() << "\n"
-                     "ATT: " << opponent->getATT() << "\n" << std::endl;
-                 if (!playerCuby->getWantsToRunAway())
-                 {
-                     printControls(playerCuby, opponent);
-                 }
-                 else
-                 {
-                     if (playerCuby->runningAway())
-                         isFightOver = true;
-                 }
-
-                 if (playerCuby->getHP() <= 0 || opponent->getHP() <= 0)
-                 {
-                     isFightOver = true;
-                 }
-                 if (isFightOver == false)
-                 {
-                     if (player->mapCubies.size() > 0)
-                     {
-                         isFightOver = opponent->attack(playerCuby);
-                     }
-                 }
-                 if (isFightOver == true)
-                 {
-                     if (!(player->mapCubies.empty()))
-                     {
-                         if (playerCuby->getHP() < 0)
-                         {
-                             player->mapCubies.erase(player->mapCubies.begin());
-                             std::cout << "Game over! Votre cuby est decede" << std::endl;
-                             std::cout << "Taille de votre equipe: " << player->mapCubies.size();
-                             return;
-                         }
-                         else if (playerCuby->getWantsToRunAway() == false)
-                         {
-                             std::cout << "Victoire!" << std::endl;
-                             return;
-                         }
-                         else
-                         {
-                             std::cout << "Vous avez fuit comme une poule mouillee, gros noob" << std::endl;
-                         }
-                     }
-                 }
-             }
-         }
+            ImGui::End();
+        //int runAwayCounter = 0;
+        //bool isRuningAway = false;
+        //
+        //bool isFightOver = false;
+        //std::cout << "Un dresseur vous attaque!" << std::endl
+        //    << "Le dressseur envoie un " << opponent->getName() << " !" << std::endl;
+        // std::cin.get();
+        //std::cout << player->mapCubies.begin()->get()->getName() << ", GO!" << std::endl;
+        // std::cin.get();
+        //
+        // while (isFightOver == false)
+        // {
+        //     auto& playerCuby = *player->mapCubies.begin();
+        //     if (!(player->mapCubies.empty()))
+        //     {
+        //         std::cout << "Votre cuby: \n" <<
+        //             "Nom: " << playerCuby->getName() << "\n"
+        //             "Niveau: " << playerCuby->getLevelString() << "\n"
+        //             "Type: " << playerCuby->getTypeString() << "\n"
+        //             "HP: " << playerCuby->getHP() << "\n"
+        //             "ATT: " << playerCuby->getATT() << "\n" << std::endl;
+        //         std::cout << "--------------------------------------------" << std::endl;
+        //         std::cout << "Cuby ennemi: \n" <<
+        //             "Nom: " << opponent->getName() << "\n"
+        //             "Niveau: " << opponent->getLevelString() << "\n"
+        //             "Type: " << opponent->getTypeString() << "\n"
+        //             "HP: " << opponent->getHP() << "\n"
+        //             "ATT: " << opponent->getATT() << "\n" << std::endl;
+        //         if (!playerCuby->getWantsToRunAway())
+        //         {
+        //             printControls(playerCuby, opponent);
+        //         }
+        //         else
+        //         {
+        //             if (playerCuby->runningAway())
+        //                 isFightOver = true;
+        //         }
+        //
+        //         if (playerCuby->getHP() <= 0 || opponent->getHP() <= 0)
+        //         {
+        //             isFightOver = true;
+        //         }
+        //         if (isFightOver == false)
+        //         {
+        //             if (player->mapCubies.size() > 0)
+        //             {
+        //                 isFightOver = opponent->attack(playerCuby);
+        //             }
+        //         }
+        //         if (isFightOver == true)
+        //         {
+        //             if (!(player->mapCubies.empty()))
+        //             {
+        //                 if (playerCuby->getHP() < 0)
+        //                 {
+        //                     player->mapCubies.erase(player->mapCubies.begin());
+        //                     std::cout << "Game over! Votre cuby est decede" << std::endl;
+        //                     std::cout << "Taille de votre equipe: " << player->mapCubies.size();
+        //                     return;
+        //                 }
+        //                 else if (playerCuby->getWantsToRunAway() == false)
+        //                 {
+        //                     std::cout << "Victoire!" << std::endl;
+        //                     return;
+        //                 }
+        //                 else
+        //                 {
+        //                     std::cout << "Vous avez fuit comme une poule mouillee, gros noob" << std::endl;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
     void printControls(std::unique_ptr<NPC>& attacker, std::unique_ptr<NPC>& defender)
     {
