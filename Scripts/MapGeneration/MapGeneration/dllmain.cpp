@@ -47,13 +47,6 @@ public:
 		terminal->print(Noise2d::PrintNoise()); 
         terminal->print(MapGeneration::drawMap());
 
-        //engine->GetRegistry();
-
-        //ECS::Registry registry;
-
-        ECS::Entity entity = engine->GetRegistry().CreateEntity();
-
-
         //Components::MeshRenderer& meshRenderer = engine->GetRegistry().GetComponent<Components::MeshRenderer>(entity);
         //meshRenderer.filePath = "test";
     }

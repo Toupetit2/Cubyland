@@ -1,22 +1,17 @@
 {
     "Entities": [
         {
-            "Camera": {
-                "FarPlane": 1000.0,
-                "Fov": 80.0,
-                "NearPlane": 0.009999999776482582
+            "EntityID": 3,
+            "MeshRenderer": {
+                "Active": true,
+                "Path": "Assets\\Default\\Plane_mesh.pa"
             },
-            "EntityID": 23,
-            "Name": "Main Camera",
-            "NativeScript": {
-                "Enabled": true,
-                "Path": "Scripts/ThirdPersonCamera.dll"
-            },
+            "Name": "Plane",
             "Transform": {
                 "Position": [
-                    0.018616728484630585,
-                    0.11290646344423294,
-                    0.25586554408073425
+                    0.0,
+                    0.0,
+                    0.0
                 ],
                 "Rotation": [
                     0.0,
@@ -31,7 +26,37 @@
             }
         },
         {
-            "EntityID": 24,
+            "Camera": {
+                "FarPlane": 1000.0,
+                "Fov": 80.0,
+                "NearPlane": 0.009999999776482582
+            },
+            "EntityID": 4,
+            "Name": "Main Camera",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/ThirdPersonCamera.dll"
+            },
+            "Transform": {
+                "Position": [
+                    0.0908886045217514,
+                    0.14131057262420654,
+                    0.005718267988413572
+                ],
+                "Rotation": [
+                    -24.400083541870117,
+                    86.39997100830078,
+                    0.0
+                ],
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "EntityID": 5,
             "Light": {
                 "CastShadows": true,
                 "Color": [
@@ -76,62 +101,35 @@
                 "Animations": [
                     {
                         "IsLooping": true,
+                        "Name": "Assets\\Mixamo\\Idle_anim_mixamorig_Hips.pa",
+                        "Path": "Assets\\Mixamo\\Idle_anim_mixamorig_Hips.pa",
+                        "Weight": 0.11110628396272659
+                    },
+                    {
+                        "IsLooping": false,
                         "Name": "Assets\\Mixamo\\Jog Backward_anim_mixamorig_Hips.pa",
                         "Path": "Assets\\Mixamo\\Jog Backward_anim_mixamorig_Hips.pa",
-                        "Weight": 0.0029455898329615593
+                        "Weight": 0.8888283371925354
                     },
                     {
                         "IsLooping": true,
                         "Name": "Assets\\Mixamo\\Jogging_anim_mixamorig_Hips.pa",
                         "Path": "Assets\\Mixamo\\Jogging_anim_mixamorig_Hips.pa",
-                        "Weight": 0.0014727949164807796
-                    },
-                    {
-                        "IsLooping": true,
-                        "Name": "Assets\\Mixamo\\idle_anim_mixamorig_Hips.pa",
-                        "Path": "Assets\\Mixamo\\idle_anim_mixamorig_Hips.pa",
-                        "Weight": 0.9955816268920898
+                        "Weight": 6.538590969284996e-05
                     }
                 ],
-                "SkeletonPath": "Assets\\Mixamo\\idle_skeleton.pa"
+                "SkeletonPath": "Assets\\Mixamo\\Idle_skeleton.pa"
             },
-            "EntityID": 25,
+            "EntityID": 6,
             "MeshRenderer": {
                 "Active": true,
                 "Materials": [
-                    "Assets/Mixamo\\Idle_mat_Ch15_body.pa",
-                    "Assets/Mixamo\\Idle_mat_Ch15_body1.pa"
+                    "Assets\\Mixamo\\Idle_mat_Ch15_body.pa",
+                    "Assets\\Mixamo\\Idle_mat_Ch15_body1.pa"
                 ],
-                "Path": "Assets\\Mixamo\\idle_mesh.pa"
+                "Path": "Assets\\Mixamo\\Idle_mesh.pa"
             },
             "Name": "Character",
-            "RigidBody": {
-                "BoxSize": [
-                    70.0,
-                    175.0,
-                    70.0
-                ],
-                "Height": 1.0,
-                "IsStatic": false,
-                "Mass": 1.0,
-                "Offset": [
-                    0.0,
-                    0.09000000357627869,
-                    0.0
-                ],
-                "PosLock": [
-                    false,
-                    false,
-                    false
-                ],
-                "Radius": 0.5,
-                "RotLock": [
-                    true,
-                    false,
-                    true
-                ],
-                "ShapeType": 0
-            },
             "Transform": {
                 "Position": [
                     0.0,
@@ -147,83 +145,6 @@
                     0.0010000000474974513,
                     0.0010000000474974513,
                     0.0010000000474974513
-                ]
-            }
-        },
-        {
-            "EntityID": 26,
-            "MeshRenderer": {
-                "Active": true,
-                "Path": "Assets\\Default\\Plane_mesh.pa"
-            },
-            "Name": "Plane",
-            "RigidBody": {
-                "BoxSize": [
-                    2.0,
-                    1.0,
-                    2.0
-                ],
-                "Height": 1.0,
-                "IsStatic": true,
-                "Mass": 1.0,
-                "Offset": [
-                    0.0,
-                    -0.5,
-                    0.0
-                ],
-                "PosLock": [
-                    false,
-                    false,
-                    false
-                ],
-                "Radius": 0.5,
-                "RotLock": [
-                    false,
-                    false,
-                    false
-                ],
-                "ShapeType": 0
-            },
-            "Transform": {
-                "Position": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "EntityID": 27,
-            "Name": "New Entity",
-            "NativeScript": {
-                "Enabled": true,
-                "Path": "Scripts/MapGeneration/x64/Release/MapGeneration.dll"
-            },
-            "Transform": {
-                "Position": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
                 ]
             }
         }

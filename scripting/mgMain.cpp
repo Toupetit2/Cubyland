@@ -58,10 +58,75 @@ public:
 private:
 };
 
+
  // Depending on your pch, you may need to ensure these namespaces are accessible
 using json = nlohmann::json;
 
 using namespace Engine;
+
+
+// def mesh
+Graphics::Mesh CreateCube()
+{
+    std::vector<float> vertices = {
+        // FRONT (+Z)
+        -0.5f,-0.5f, 0.5f,   0,0,1,   0,0,
+         0.5f,-0.5f, 0.5f,   0,0,1,   1,0,
+         0.5f, 0.5f, 0.5f,   0,0,1,   1,1,
+        -0.5f, 0.5f, 0.5f,   0,0,1,   0,1,
+
+        // BACK (-Z)
+         0.5f,-0.5f,-0.5f,   0,0,-1,  0,0,
+        -0.5f,-0.5f,-0.5f,   0,0,-1,  1,0,
+        -0.5f, 0.5f,-0.5f,   0,0,-1,  1,1,
+         0.5f, 0.5f,-0.5f,   0,0,-1,  0,1,
+
+         // LEFT (-X)
+         -0.5f,-0.5f,-0.5f,  -1,0,0,   0,0,
+         -0.5f,-0.5f, 0.5f,  -1,0,0,   1,0,
+         -0.5f, 0.5f, 0.5f,  -1,0,0,   1,1,
+         -0.5f, 0.5f,-0.5f,  -1,0,0,   0,1,
+
+         // RIGHT (+X)
+          0.5f,-0.5f, 0.5f,   1,0,0,   0,0,
+          0.5f,-0.5f,-0.5f,   1,0,0,   1,0,
+          0.5f, 0.5f,-0.5f,   1,0,0,   1,1,
+          0.5f, 0.5f, 0.5f,   1,0,0,   0,1,
+
+          // TOP (+Y)
+          -0.5f, 0.5f, 0.5f,   0,1,0,   0,0,
+           0.5f, 0.5f, 0.5f,   0,1,0,   1,0,
+           0.5f, 0.5f,-0.5f,   0,1,0,   1,1,
+          -0.5f, 0.5f,-0.5f,   0,1,0,   0,1,
+
+          // BOTTOM (-Y)
+          -0.5f,-0.5f,-0.5f,   0,-1,0,  0,0,
+           0.5f,-0.5f,-0.5f,   0,-1,0,  1,0,
+           0.5f,-0.5f, 0.5f,   0,-1,0,  1,1,
+          -0.5f,-0.5f, 0.5f,   0,-1,0,  0,1,
+    };
+
+    std::vector<uint32_t> indices = {
+        0,1,2,  2,3,0,       // front
+        4,5,6,  6,7,4,       // back
+        8,9,10, 10,11,8,     // left
+        12,13,14, 14,15,12,  // right
+        16,17,18, 18,19,16,  // top
+        20,21,22, 22,23,20   // bottom
+    };
+
+    Graphics::Mesh mesh;
+    mesh.vertex_data = std::move(vertices);
+    mesh.indices = std::move(indices);
+    mesh.vertexCount = 24;
+
+    mesh.ComputeBoundsAndCentroid();
+    mesh.UploadBuffers();
+    mesh.BuildVAO();
+
+    return mesh;
+}
+
 
 class TemplateV3 : public Engine::Scripting::NativeScript {
 public:
@@ -97,35 +162,65 @@ public:
         terminal->print(Noise2d::PrintNoise());
         terminal->print(MapGeneration::drawMap());
 
-        ECS::Entity e = registry->CreateEntity();
-        registry->SetEntityName(e, "EntityTest_1");
-        registry->AddComponent(e, Components::Transform{});
-        registry->AddComponent(e, Components::MeshRenderer{});
-        
-        registry->GetComponent<Components::MeshRenderer>(e).filePath = "Assets/Default/Cube_Mesh.pa";
-        registry->GetComponent<Components::MeshRenderer>(e).SetActive(true);
+        // Def mat
+        Graphics::Material matRed;
+        matRed.name = "Red Material";
+        matRed.albedoMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 255, 0, 0});
+        matRed.normalMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 128, 128, 255});
+        matRed.metallicRoughnessMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 0, 128, 255});
 
-        std::cout << registry->GetComponent<Components::MeshRenderer>(e).GetModelCount();
+		Graphics::Material matGreen;
+		matGreen.name = "Green Material";
+		matGreen.albedoMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 0, 255, 0 });
+		matGreen.normalMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 128, 128, 255 });
+		matGreen.metallicRoughnessMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 0, 128, 255 });
 
-        /*
-        std::vector<ECS::Entity> entityVector; 
+		Graphics::Material matBlue;
+		matBlue.name = "Blue Material";
+		matBlue.albedoMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 0, 0, 255 });
+		matBlue.normalMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 128, 128, 255 });
+		matBlue.metallicRoughnessMap = std::make_shared<Graphics::Texture2D>(1, 1, new uint8_t[3]{ 0, 128, 255 });
 
+        //a
+        auto sharedCube = std::make_shared<Graphics::Mesh>(CreateCube());
+        sharedCube->upload();
+
+        auto redMat = std::make_shared<Graphics::Material>(matRed);
+        auto greenMat = std::make_shared<Graphics::Material>(matGreen);
+        auto blueMat = std::make_shared<Graphics::Material>(matBlue);
+
+        //b
         for (int x = 0; x < 50; x++)
         {
             for (int y = 0; y < 50; y++)
             {
-                entityVector.push_back(registry->CreateEntity());
-                registry->SetEntityName(entityVector.back, "Map");
-                //registry->AddComponent(e, new Components::Transform);
-                //registry->AddComponent(e, new Components::MeshRenderer);
-                //registry->AddComponent(e, new Components::RigidBody);
-                //changer materiau en fonction de -> MapGeneration::getType(x, y);
-                //glm::vec3 position(x, y, 0.0f);
-                //registry->GetComponent<Components::Transform>(e).Position = position;
-                //
+                ECS::Entity e = registry->CreateEntity();
+
+                registry->SetEntityName(e, "Map");
+
+                //c
+                registry->AddComponent(e, Components::Transform{});
+                registry->AddComponent(e, Components::MeshRenderer{});
+
+                auto& mr = registry->GetComponent<Components::MeshRenderer>(e);
+                auto& tr = registry->GetComponent<Components::Transform>(e);
+
+                mr.filePath = "Assets/Default/Cube_Mesh.pa";
+                mr.meshes.push_back(sharedCube); //d
+
+                switch (MapGeneration::getType(x, y))
+                {
+                case Fire:  mr.materials.push_back(redMat); break;
+                case Grass: mr.materials.push_back(greenMat); break;
+                case Water: mr.materials.push_back(blueMat); break;
+                }
+
+                mr.SetActive(true);
+
+                tr.Position = glm::vec3(x, 0.0f, y);
             }
         }
-        */
+        
 
 
 

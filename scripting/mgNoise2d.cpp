@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "mgNoise2d.h"
 
-float Noise2d::random2D(int posX, int posY) {
-	int n = posX * 374761393 + posY * 668265263; // gros nombres premiers
+#include <iostream>
+#include <string>
+
+float Noise2d::random2D(Vector2<int> pos) {
+	int n = pos.x * 374761393 + pos.y * 668265263; // gros nombres premiers
 	n = (n ^ (n >> 13)) * 1274126177;
 	n = n ^ (n >> 16);
 
