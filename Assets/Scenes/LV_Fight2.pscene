@@ -1,11 +1,13 @@
 {
     "Entities": [
         {
-            "EntityID": 745,
+            "EntityID": 12,
             "Name": "Fight",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/fight.dll"
+                "Path": "Scripts/fight.dll",
+                "Persistant": false,
+                "RunInEditor": false
             },
             "Transform": {
                 "Position": [
@@ -31,11 +33,13 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 746,
+            "EntityID": 13,
             "Name": "Cam",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/ThirdPersonCamera.dll"
+                "Path": "Scripts/ThirdPersonCamera.dll",
+                "Persistant": false,
+                "RunInEditor": false
             },
             "Transform": {
                 "Position": [
@@ -56,7 +60,7 @@
             }
         },
         {
-            "EntityID": 747,
+            "EntityID": 14,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -81,7 +85,7 @@
             }
         },
         {
-            "EntityID": 748,
+            "EntityID": 15,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -106,7 +110,7 @@
             }
         },
         {
-            "EntityID": 749,
+            "EntityID": 16,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -147,7 +151,7 @@
             }
         },
         {
-            "EntityID": 750,
+            "EntityID": 17,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
