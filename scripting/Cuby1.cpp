@@ -1,8 +1,6 @@
 #include "script_pch.h"
 #include <iostream>
-//#include <vector>
-//#include <string>
-
+#include <string>
 
 #ifdef _WIN32
 #define SCRIPT_API __declspec(dllexport)
@@ -19,6 +17,12 @@ public :
 	Engine::ECS::Entity targetPlayer = Engine::ECS::NULL_ENTITY;
 	Engine::ECS::Entity targetSelf = Engine::ECS::NULL_ENTITY;
 	
+	int attaque = 0;
+	int hp = 0;
+	std::string name = "robert";
+	std::string type = "feu";
+	int lv = 1;
+
 
 	void OnInit() override {
 
@@ -55,12 +59,14 @@ public :
 
 		auto& playerTransform = registry->GetComponent<Engine::Components::Transform>(targetPlayer);
 		auto& selfTransform = registry->GetComponent<Engine::Components::Transform>(targetSelf);
-		//std::cout << "MERDE avant \n";
-		if (playerTransform.Position == selfTransform.Position) {
-			//std::cout << playerTransform.Position <<"\n";
+		
+
+		float distance = glm::distance(playerTransform.Position, selfTransform.Position);
+		
+		if(distance <= 0.3) {
 			std::cout << "MERDE \n";
-			//break;
 		}
+
 	
 
 	}

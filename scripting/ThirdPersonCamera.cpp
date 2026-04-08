@@ -2,26 +2,32 @@
 #include "Systems/AnimatorSystem.h" // Include AnimatorSystem to control weights
 
 #ifdef _WIN32
-    #define SCRIPT_API __declspec(dllexport)
+#define SCRIPT_API __declspec(dllexport)
 #else
-    #define SCRIPT_API __attribute__((visibility("default")))
+#define SCRIPT_API __attribute__((visibility("default")))
 #endif
 
 
 class ThirdPersonCamera : public Engine::Scripting::NativeScript {
 public:
+
+
+    int XP = 0;
+
+    
+
     float distance = 0.2f;
     float sensitivity = 0.1f;
     float moveSpeed = 0.2f; // Speed of the character
     float animationBlendSpeed = 10.0f; // How fast animations transition
 
-    float yaw = 0.0f; 
+    float yaw = 0.0f;
     float pitch = 20.0f;
-    float targetHeightOffset = 0.1f; 
-    
+    float targetHeightOffset = 0.1f;
+
     bool invertX = false;
     bool invertY = false;
-    
+
     Engine::ECS::Entity targetEntity = Engine::ECS::NULL_ENTITY;
     bool isMouseCaptured = false;
     bool animationsInitialized = false;
@@ -32,7 +38,7 @@ public:
     std::string backwardAnim = "Assets\\Mixamo\\Jog Backward_anim_mixamorig_Hips.pa";
 
     // 1.0 = full forward, 0.0 = idle, -1.0 = full backward
-    float currentMoveState = 0.0f; 
+    float currentMoveState = 0.0f;
 
     void OnInit() override {
         Inspect("Distance", &distance);
@@ -63,7 +69,7 @@ public:
             animSys->PlayBlendAnimation(targetEntity, idleAnim, true);
             animSys->PlayBlendAnimation(targetEntity, forwardAnim, true);
             animSys->PlayBlendAnimation(targetEntity, backwardAnim, true);
-            
+
             animationsInitialized = true;
         }
     }
@@ -71,7 +77,7 @@ public:
     void OnUpdate(float dt) override {
         if (targetEntity == Engine::ECS::NULL_ENTITY) {
             FindTarget();
-            if (targetEntity == Engine::ECS::NULL_ENTITY) return; 
+            if (targetEntity == Engine::ECS::NULL_ENTITY) return;
         }
 
         // Initialize animations once the target is found
@@ -84,14 +90,14 @@ public:
         }
 
         // 1. Mouse Look (Orbit Camera)
-        if (InputSysteminstance->GetMouseButtonState(1)) { 
+        if (InputSysteminstance->GetMouseButtonState(1)) {
             if (!isMouseCaptured) {
                 InputSysteminstance->SetMouseCapture(true);
                 isMouseCaptured = true;
             }
 
             glm::vec2 look = InputSysteminstance->lookInput;
-            
+
             if (invertX) yaw += look.x * sensitivity;
             else         yaw -= look.x * sensitivity;
 
@@ -100,33 +106,34 @@ public:
 
             if (pitch > 89.0f) pitch = 89.0f;
             if (pitch < -89.0f) pitch = -89.0f;
-        } else {
+        }
+        else {
             if (isMouseCaptured) {
                 InputSysteminstance->SetMouseCapture(false);
                 isMouseCaptured = false;
             }
         }
 
-        if (registry->HasComponent<Engine::Components::Transform>(entityID) && 
+        if (registry->HasComponent<Engine::Components::Transform>(entityID) &&
             registry->HasComponent<Engine::Components::Transform>(targetEntity)) {
-            
+
             auto& cameraTransform = registry->GetComponent<Engine::Components::Transform>(entityID);
             auto& targetTransform = registry->GetComponent<Engine::Components::Transform>(targetEntity);
 
             // 2. Camera Rotation
             cameraTransform.Rotation.x = pitch;
-            cameraTransform.Rotation.y = yaw; 
-            cameraTransform.Rotation.z = 0.0f; 
+            cameraTransform.Rotation.y = yaw;
+            cameraTransform.Rotation.z = 0.0f;
 
             glm::mat4 rotationMatrix = glm::mat4(1.0f);
-            rotationMatrix = glm::rotate(rotationMatrix, glm::radians(cameraTransform.Rotation.y), glm::vec3(0, 1, 0)); 
-            rotationMatrix = glm::rotate(rotationMatrix, glm::radians(cameraTransform.Rotation.x), glm::vec3(1, 0, 0)); 
-            
+            rotationMatrix = glm::rotate(rotationMatrix, glm::radians(cameraTransform.Rotation.y), glm::vec3(0, 1, 0));
+            rotationMatrix = glm::rotate(rotationMatrix, glm::radians(cameraTransform.Rotation.x), glm::vec3(1, 0, 0));
+
             cameraTransform.Forward = glm::normalize(glm::vec3(rotationMatrix * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)));
 
             // 3. Character Movement & Animation Logic
             float targetMoveState = 0.0f; // Target blending value based on pure input
-            
+
             // Flatten camera forward vector to move character along the XZ plane
             glm::vec3 flatForward = glm::normalize(glm::vec3(cameraTransform.Forward.x, 0.0f, cameraTransform.Forward.z));
             glm::vec3 flatRight = glm::normalize(glm::cross(flatForward, glm::vec3(0.0f, 1.0f, 0.0f)));
@@ -134,28 +141,28 @@ public:
             if (isMouseCaptured) { // Optional: only move character if camera is captured
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_W)) { //
                     targetTransform.Position += flatForward * moveSpeed * dt;
-                    targetMoveState = 1.0f; // Walk forward
+                    targetMoveState = 1.0f; 
 
-                    targetTransform.Rotation.y = yaw + 180.f;                 
+                    targetTransform.Rotation.y = yaw + 180.f;
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_S)) { //
                     targetTransform.Position -= flatForward * moveSpeed * dt;
-                    targetMoveState = -1.0f; // Walk forward
+                    targetMoveState = -1.0f; 
 
                     targetTransform.Rotation.y = yaw + 180.f;
-                    
+
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_D)) {
-                    targetTransform.Position += flatRight * moveSpeed* dt;
-                    targetMoveState = 1.0f; // Walk backward
-                    
-                    
+                    targetTransform.Position += flatRight * moveSpeed * dt;
+                    targetMoveState = 1.0f; 
+
+
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_A)) {
                     targetTransform.Position -= flatRight * moveSpeed * dt;
-                    targetMoveState = -1.0f; // Walk backward
+                    targetMoveState = -1.0f; 
 
-                    
+
                 }
             }
 
@@ -167,7 +174,7 @@ public:
                 // Split the current state into specific weights (must be >= 0)dsd
                 float forwardWeight = std::max(0.0f, currentMoveState);
                 float backwardWeight = std::max(0.0f, -currentMoveState);
-                
+
                 // Idle takes whatever weight is left over
                 float idleWeight = 1.0f - std::abs(currentMoveState);
 
