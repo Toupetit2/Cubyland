@@ -412,6 +412,7 @@ public:
             {
                 showAttackingDialogue = false;
                 showStats = false;
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
             }
 		}
 		if (lose)
@@ -421,6 +422,7 @@ public:
             {
                 enemyTurn = false;
                 showStats = false;
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
             }
 		}
 		if (ranAway)
@@ -431,6 +433,7 @@ public:
 			{
 				showAttackingDialogue = false;
 				showStats = false;
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
 			}
 		}
         ImGui::End();

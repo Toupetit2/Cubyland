@@ -421,3 +421,4 @@ FodyWeavers.xsd
 *.exe
 *.lib
 src/
+Assets/Mixamo/Idle.zip
