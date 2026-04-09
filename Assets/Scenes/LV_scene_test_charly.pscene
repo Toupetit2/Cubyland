@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 113,
+            "EntityID": 45,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -26,7 +26,7 @@
             }
         },
         {
-            "EntityID": 114,
+            "EntityID": 46,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -67,7 +67,7 @@
             }
         },
         {
-            "EntityID": 115,
+            "EntityID": 47,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cone_mesh.pa"
@@ -97,11 +97,13 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 116,
+            "EntityID": 48,
             "Name": "Main Camera",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/ThirdPersonCamera.dll"
+                "Path": "Scripts/ThirdPersonCamera.dll",
+                "Persistant": false,
+                "RunInEditor": false
             },
             "Transform": {
                 "Position": [
@@ -122,7 +124,7 @@
             }
         },
         {
-            "EntityID": 117,
+            "EntityID": 49,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -130,7 +132,9 @@
             "Name": "cuby1",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/Cuby1.dll"
+                "Path": "Scripts/Cuby1.dll",
+                "Persistant": false,
+                "RunInEditor": false
             },
             "Transform": {
                 "Position": [

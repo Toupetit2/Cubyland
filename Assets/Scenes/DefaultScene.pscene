@@ -6,13 +6,11 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 30,
+            "EntityID": 62,
             "Name": "Main Camera",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/ThirdPersonCamera.dll",
-                "Persistant": true,
-                "RunInEditor": false
+                "Path": "Scripts/ThirdPersonCamera.dll"
             },
             "Transform": {
                 "Position": [
@@ -33,7 +31,7 @@
             }
         },
         {
-            "EntityID": 31,
+            "EntityID": 63,
             "Light": {
                 "CastShadows": true,
                 "Color": [
@@ -97,7 +95,7 @@
                 ],
                 "SkeletonPath": "Assets\\Mixamo\\Idle_skeleton.pa"
             },
-            "EntityID": 32,
+            "EntityID": 64,
             "MeshRenderer": {
                 "Active": true,
                 "Materials": [
@@ -153,7 +151,7 @@
             }
         },
         {
-            "EntityID": 33,
+            "EntityID": 65,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -205,13 +203,11 @@
             }
         },
         {
-            "EntityID": 34,
+            "EntityID": 66,
             "Name": "Hud",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/HUDScript.dll",
-                "Persistant": false,
-                "RunInEditor": false
+                "Path": "Scripts/HUDScript.dll"
             },
             "Transform": {
                 "Position": [
@@ -255,21 +251,19 @@
                 ],
                 "SkeletonPath": "Assets\\Mixamo\\Idle_skeleton.pa"
             },
-            "EntityID": 35,
+            "EntityID": 67,
             "MeshRenderer": {
                 "Active": true,
                 "Materials": [
-                    "Assets\\Mixamo\\Idle_mat_Ch15_body1.pa",
-                    "Assets\\Mixamo\\Idle_mat_Ch15_body.pa"
+                    "Assets\\Mixamo\\Idle_mat_Ch15_body.pa",
+                    "Assets\\Mixamo\\Idle_mat_Ch15_body1.pa"
                 ],
                 "Path": "Assets\\Mixamo\\Idle_mesh.pa"
             },
             "Name": "UE5",
             "NativeScript": {
                 "Enabled": false,
-                "Path": "Scripts/MotionMatchingController.dll",
-                "Persistant": false,
-                "RunInEditor": false
+                "Path": "Scripts/MotionMatchingController.dll"
             },
             "RigidBody": {
                 "BoxSize": [
@@ -317,13 +311,11 @@
             }
         },
         {
-            "EntityID": 36,
+            "EntityID": 68,
             "Name": "Game Master",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/GameMaster.dll",
-                "Persistant": false,
-                "RunInEditor": false
+                "Path": "Scripts/GameMaster.dll"
             },
             "Transform": {
                 "Position": [
@@ -344,7 +336,7 @@
             }
         },
         {
-            "EntityID": 37,
+            "EntityID": 69,
             "Name": "2D Sprite",
             "SpriteRenderer": {
                 "Active": true,
@@ -377,13 +369,11 @@
             }
         },
         {
-            "EntityID": 38,
+            "EntityID": 70,
             "Name": "Belt Generator",
             "NativeScript": {
                 "Enabled": true,
-                "Path": "Scripts/BeltGeometryGenerator.dll",
-                "Persistant": false,
-                "RunInEditor": false
+                "Path": "Scripts/BeltGeometryGenerator.dll"
             },
             "Transform": {
                 "Position": [

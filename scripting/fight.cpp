@@ -4,22 +4,19 @@
 #include <iostream>
 #include <string>
 #include <imgui.h>
+#include "json.hpp"
 #include "Systems/FunctionRegistrySystem.h"
+#include <fstream>
 #ifdef _WIN32
 #define SCRIPT_API __declspec(dllexport)
 #else
 #define SCRIPT_API __attribute__((visibility("default")))
 #endif
+using json = nlohmann::json;
+
 enum Type { FIRE, WATER, GRASS };
 enum Level { Lv1, Lv2, Lv3 };
 enum Efficiency { NOT, EFFICIENT, VERY };
-
-class Vec3 {
-public:
-    int x;
-    int y;
-    int z;
-};
 
 class NPC : public Engine::Scripting::NativeScript
 {
@@ -30,8 +27,6 @@ private:
     bool isCubyVar = false;
     std::string name = "NAME";
     Type type = FIRE;
-    Vec3 position;
-    Vec3& playerPos;
     Level level = Level::Lv1;
     bool wantsToRunAway = false;
     int runAwayCounter = 2;
@@ -46,9 +41,6 @@ public:
 
     int getXP() { return XP; }
     void setXP(int newXP) { XP = newXP; }
-
-    bool isCuby() { return isCubyVar; }
-    void setIsCuby(bool newStatus) { isCubyVar = newStatus; }
 
     std::string NPC::getName() { return name; }
     void setName(std::string newName) { name = newName; }
@@ -94,7 +86,6 @@ public:
             break;
         }
     }
-    Vec3& getPlayerPosition() { return playerPos; }
 
     Efficiency handleEfficiency(Type t1, Type t2)
     {
@@ -180,8 +171,6 @@ public:
             return false;
     }
 
-    NPC(Vec3& playerPos) : playerPos(playerPos) {}
-
     bool getWantsToRunAway()
     {
         return wantsToRunAway;
@@ -201,7 +190,6 @@ class Player : public Engine::Scripting::NativeScript
 {
 public:
     std::vector<std::unique_ptr<NPC>> mapCubies;
-    Vec3 vector1;
     void  getComponent() {}
     void  setComponent() {}
 
@@ -229,22 +217,49 @@ public:
 	bool lose = false;
 	bool ranAway = false;
     bool showSuivant = true;
+	bool showSuivantSelectionCuby = false;
 
     void DrawHUD() {
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing;
         ImGui::Begin("HUD", nullptr, window_flags);
-        
+
         if (showDialogueWindow)
         {
+            std::string label1 = "Type Feu: " + cubyFire.getName();
+			std::string label2 = "Type Eau: " + cubyWater.getName();
+			std::string label3 = "Type Plante: " + cubyGrass.getName();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Un dresseur vous attaque!");
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Le dressseur envoie un %s !", opponent->getName().c_str());
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s, GO!", player->mapCubies.front()->getName().c_str());
-			if (ImGui::Button("Suivant"))
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Choisissez votre cuby!");
+			if (ImGui::Button(label1.c_str()))
 			{
-                showStats = true;
-				showDialogueWindow = false;
+                player->mapCubies.front() = std::make_unique<NPC>(cubyFire);
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s, GO!", player->mapCubies.front()->getName().c_str());
+				showSuivantSelectionCuby = true;
 			}
+            if (ImGui::Button(label2.c_str()))
+            {
+				player->mapCubies.front() = std::make_unique<NPC>(cubyWater);
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s, GO!", player->mapCubies.front()->getName().c_str());
+				showSuivantSelectionCuby = true;
+            }
+			if (ImGui::Button(label3.c_str()))
+			{
+				player->mapCubies.front() = std::make_unique<NPC>(cubyGrass);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s, GO!", player->mapCubies.front()->getName().c_str());
+				showSuivantSelectionCuby = true;
+			}
+			
         }
+		if (showSuivantSelectionCuby)
+		{
+			if (ImGui::Button("Commencer le combat"))
+			{
+				showDialogueWindow = false;
+				showSuivantSelectionCuby = false;
+				showStats = true;
+			}
+		}
 		if (showStats)
         {
             ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Nom de votre cuby: %s", player->mapCubies.front()->getName());
@@ -480,31 +495,220 @@ public:
         }
     }
     
-    Fight(std::unique_ptr<Player> p, std::unique_ptr<NPC> n)
-        : player(std::move(p)), opponent(std::move(n))
+    std::unique_ptr<Player> player;
+    std::unique_ptr<NPC> opponent;
+    NPC cubyFire;
+    NPC cubyWater;
+    NPC cubyGrass;
+
+    Fight(std::unique_ptr<Player> p, std::unique_ptr<NPC> n, NPC cf, NPC cw, NPC cg)
+		: player(std::move(p)), opponent(std::move(n)), cubyFire(cf), cubyWater(cw), cubyGrass(cg)
     {
     }
 
-    std::unique_ptr<Player> player;
-    std::unique_ptr<NPC> opponent;
+    
+
 
 };
 
 extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
     auto player = std::make_unique<Player>();
-    auto playerCuby = std::make_unique<NPC>(player->vector1);
-    playerCuby->setType(Type::FIRE);
-    playerCuby->setName("Roitiflam");
-    playerCuby->setLevel(Level::Lv3);
-    playerCuby->setATT(30);
-    playerCuby->setHP(150);
-    player->mapCubies.push_back(std::move(playerCuby));
-    auto opponent = std::make_unique<NPC>(player->vector1);
-    opponent->getPlayerPosition() = player->vector1;
-    opponent->setType(Type::GRASS);
-    opponent->setName("Majaspic");
-    opponent->setLevel(Level::Lv3);
-    opponent->setATT(30);
-    opponent->setHP(150);
-    return new Fight(std::move(player), std::move(opponent));
+    auto playerCuby = std::make_unique<NPC>();
+    player->mapCubies.push_back(std::make_unique<NPC>());
+	auto opponent = std::make_unique<NPC>();
+	NPC cubyFire = NPC();
+	NPC cubyWater = NPC();
+	NPC cubyGrass = NPC();
+	cubyFire.setType(Type::FIRE);
+	cubyWater.setType(Type::WATER);
+	cubyGrass.setType(Type::GRASS);
+
+    std::ifstream file("scripting/cubyData.json");
+    if (!file.is_open()) {
+		std::cout << "Erreur lors de l'ouverture du fichier!" << std::endl;
+        return nullptr;
+    }
+
+    json data;
+    file >> data;
+
+    std::string type;
+    int enemyLevel;
+    int playerLevel;
+    int playerXP;
+
+    
+    type = data.at("type").get<std::string>();
+    enemyLevel = data.at("enemyLevel").get<int>();
+    playerLevel = data.at("playerLevel").get<int>();
+    playerXP = data.at("playerXP").get<int>();
+
+	
+
+
+
+
+	if (type == "fire")
+	{
+		opponent->setType(Type::FIRE);
+	}
+	else if (type == "water")
+	{
+		opponent->setType(Type::WATER);
+	}
+	else if (type == "grass")
+	{
+		opponent->setType(Type::GRASS);
+	}
+
+
+	switch (enemyLevel)
+	{
+	case 1:
+		opponent->setLevel(Level::Lv1);
+		break;
+	case 2:
+		opponent->setLevel(Level::Lv2);
+		break;
+	case 3:
+		opponent->setLevel(Level::Lv3);
+		break;
+	default:
+		opponent->setLevel(Level::Lv1);
+		break;
+	}
+	switch (playerLevel)
+	{
+	case 1:
+		cubyFire.setLevel(Level::Lv1);
+		cubyWater.setLevel(Level::Lv1);
+		cubyGrass.setLevel(Level::Lv1);
+		break;
+	case 2:
+		cubyFire.setLevel(Level::Lv2);
+		cubyWater.setLevel(Level::Lv2);
+		cubyGrass.setLevel(Level::Lv2);
+		break;
+	case 3:
+		cubyFire.setLevel(Level::Lv3);
+		cubyWater.setLevel(Level::Lv3);    
+		cubyGrass.setLevel(Level::Lv3);
+		break;
+	default:
+        cubyFire.setLevel(Level::Lv1);
+        cubyWater.setLevel(Level::Lv1);
+        cubyGrass.setLevel(Level::Lv1);
+		break;
+	}
+	player->mapCubies.front()->setXP(playerXP);
+	if (opponent->getLevel() == Level::Lv1)
+	{
+		opponent->setHP(50);
+		opponent->setATT(10);
+	}
+	else if (opponent->getLevel() == Level::Lv2)
+	{
+		opponent->setHP(100);
+		opponent->setATT(20);
+	}
+	else if (opponent->getLevel() == Level::Lv3)
+	{
+		opponent->setHP(150);
+		opponent->setATT(30);
+	}
+	if (player->mapCubies.front()->getLevel() == Level::Lv1)
+	{
+		cubyFire.setHP(50);
+		cubyFire.setATT(10);
+		cubyWater.setHP(50);
+		cubyWater.setATT(10);
+		cubyGrass.setHP(50);
+		cubyGrass.setATT(10);
+	}
+	else if (player->mapCubies.front()->getLevel() == Level::Lv2)
+	{
+		cubyFire.setHP(100);
+		cubyFire.setATT(20);
+		cubyWater.setHP(100);
+		cubyWater.setATT(20);
+		cubyGrass.setHP(100);
+		cubyGrass.setATT(20);
+	}
+	else if (player->mapCubies.front()->getLevel() == Level::Lv3)
+	{
+		cubyFire.setHP(150);
+		cubyFire.setATT(30);
+		cubyWater.setHP(150);
+		cubyWater.setATT(30);
+		cubyGrass.setHP(150);
+		cubyGrass.setATT(30);
+	}
+
+	//noms en fonction du type et du niveau
+	if (playerLevel == 1)
+	{
+		cubyFire.setName("Salamouche");
+		cubyWater.setName("Carapunaise");
+		cubyGrass.setName("Bulbchelou");
+	}
+	else if (playerLevel == 2)
+	{
+		cubyFire.setName("Reptinpoivre");
+		cubyWater.setName("Caratarte");
+		cubyGrass.setName("Herbchelou");
+	}
+	else if (playerLevel == 3)
+	{
+		cubyFire.setName("Dracoflamme");
+		cubyWater.setName("Torchar");
+		cubyGrass.setName("Florichelou");
+	}
+    if (type == "fire")
+    {
+		if (enemyLevel == 1)
+		{
+			opponent->setName("Salamouche");
+		}
+		else if (enemyLevel == 2)
+		{
+			opponent->setName("Reptinpoivre");
+		}
+		else if (enemyLevel == 3)
+		{
+			opponent->setName("Dracoflamme");
+		}
+    }
+	else if (type == "water")
+	{
+		if (enemyLevel == 1)
+		{
+			opponent->setName("Carapunaise");
+		}
+		else if (enemyLevel == 2)
+		{
+			opponent->setName("Caratarte");
+		}
+		else if (enemyLevel == 3)
+		{
+			opponent->setName("Torchar");
+		}
+	}
+	else if (type == "grass")
+	{
+		if (enemyLevel == 1)
+		{
+			opponent->setName("Bulbchelou");
+		}
+		else if (enemyLevel == 2)
+		{
+			opponent->setName("Herbchelou");
+		}
+		else if (enemyLevel == 3)
+		{
+			opponent->setName("Florichelou");
+		}
+	}
+
+
+    return new Fight(std::move(player), std::move(opponent), cubyFire, cubyWater, cubyGrass);
 }

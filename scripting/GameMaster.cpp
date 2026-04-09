@@ -70,7 +70,7 @@ public:
         ImGui::TextColored({1.0f,0.5f,0.5f,1.0f}, "--- Config ---");
         std::vector<Engine::ECS::Entity> EntitiesWithHealthComponent = registry->View<HealthComponent>();
 
-        for (Engine::ECS::Entity entity : EntitiesWithHealthComponent) {
+        for (Engine::ECS::Entity entity : registry->View<HealthComponent>()) {
             if (auto* health = &registry->GetComponent<HealthComponent>(entity)) {
                 std::string text = "Player Health (" + registry->GetEntityName(entity) + ")";
                 ImGui::InputFloat(text.c_str(), &health->currentHealth);

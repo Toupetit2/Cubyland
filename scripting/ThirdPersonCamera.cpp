@@ -14,7 +14,7 @@ public:
 
     int XP = 0;
 
-    
+
 
     float distance = 0.2f;
     float sensitivity = 0.1f;
@@ -141,26 +141,26 @@ public:
             if (isMouseCaptured) { // Optional: only move character if camera is captured
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_W)) { //
                     targetTransform.Position += flatForward * moveSpeed * dt;
-                    targetMoveState = 1.0f; 
+                    targetMoveState = 1.0f;
 
                     targetTransform.Rotation.y = yaw + 180.f;
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_S)) { //
                     targetTransform.Position -= flatForward * moveSpeed * dt;
-                    targetMoveState = -1.0f; 
+                    targetMoveState = -1.0f;
 
                     targetTransform.Rotation.y = yaw + 180.f;
 
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_D)) {
                     targetTransform.Position += flatRight * moveSpeed * dt;
-                    targetMoveState = 1.0f; 
+                    targetMoveState = 1.0f;
 
 
                 }
                 if (InputSysteminstance->GetKeyState(GLFW_KEY_A)) {
                     targetTransform.Position -= flatRight * moveSpeed * dt;
-                    targetMoveState = -1.0f; 
+                    targetMoveState = -1.0f;
 
 
                 }
@@ -187,6 +187,14 @@ public:
             // 5. Update Camera Position based on the newly moved target
             glm::vec3 targetFocusPos = targetTransform.Position + glm::vec3(0.0f, targetHeightOffset, 0.0f);
             cameraTransform.Position = targetFocusPos - (cameraTransform.Forward * distance);
+        }
+    }
+
+    void OnDestroy() override
+    {
+        if (isMouseCaptured) {
+            InputSysteminstance->SetMouseCapture(false);
+            isMouseCaptured = false;
         }
     }
 };

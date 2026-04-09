@@ -70,6 +70,7 @@
 #include "Components/NativeScriptComponent.h"
 #include "Components/Animator.h"
 #include "Components/DebugBox.h"
+#include "Components/Tag.h"
 
 #include "Graphics/Mesh.h"
 
