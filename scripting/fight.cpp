@@ -219,6 +219,25 @@ public:
     bool showSuivant = true;
 	bool showSuivantSelectionCuby = false;
 
+    void UpdateCubyData(int enemyLv, int playerLv, int xp, const std::string& type) {
+        json data;
+        data["enemyLevel"] = enemyLv;
+        data["playerLevel"] = playerLv;
+        data["playerXP"] = xp;
+        data["type"] = type;
+
+        std::string path = "scripting/cubyData.json";
+
+        std::ofstream file(path);
+        if (file.is_open()) {
+            file << std::setw(4) << data << std::endl;
+            file.close();
+		}
+        else {
+            std::cerr << "Erreur lors de l'ouverture du fichier " << path << " pour l'écriture!" << std::endl;
+        }
+    }
+
     void DrawHUD() {
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing;
         ImGui::Begin("HUD", nullptr, window_flags);
@@ -422,11 +441,34 @@ public:
         }
         if(win)
 		{
-			ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Victoire!");
+            if (player->mapCubies.front()->getLevel() < Level::Lv3)
+            {
+                ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Vous gagnez 50 XP!");
+
+                if (player->mapCubies.front()->getXP() + 50 >= 100)
+                {
+                    ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Votre cuby a gagne un niveau!");
+                }
+            }
+
             if (ImGui::Button("Terminer le combat") && isFightOver)
             {
                 showAttackingDialogue = false;
                 showStats = false;
+
+                if (player->mapCubies.front()->getLevel() < Level::Lv3)
+                {
+                    player->mapCubies.front()->setXP(player->mapCubies.front()->getXP() + 50);
+
+                    if (player->mapCubies.front()->getXP() >= 100)
+                    {
+                        int nextLevel = static_cast<int>(player->mapCubies.front()->getLevel()) + 1;
+                        player->mapCubies.front()->setLevel(static_cast<Level>(std::min(nextLevel, static_cast<int>(Level::Lv3))));
+                        player->mapCubies.front()->setXP(0);
+                    }
+                }
+
+				UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
                 engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
             }
 		}
@@ -437,6 +479,7 @@ public:
             {
                 enemyTurn = false;
                 showStats = false;
+                UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
                 engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
             }
 		}
@@ -448,6 +491,7 @@ public:
 			{
 				showAttackingDialogue = false;
 				showStats = false;
+                UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
                 engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
 			}
 		}
@@ -466,6 +510,7 @@ public:
         if (Engine::Systems::ImGuiSystem* ImGuiSystem = engine->GetSystem<Engine::Systems::ImGuiSystem>()) {
             ImGuiSystem->UnregisterUICallback("DrawPlayerHUD");
         }
+
     }
     Efficiency handleEfficiency(Type t1, Type t2)
     {
@@ -580,27 +625,31 @@ extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
 	switch (playerLevel)
 	{
 	case 1:
+		player->mapCubies.front()->setLevel(Level::Lv1);
 		cubyFire.setLevel(Level::Lv1);
 		cubyWater.setLevel(Level::Lv1);
 		cubyGrass.setLevel(Level::Lv1);
 		break;
 	case 2:
+		player->mapCubies.front()->setLevel(Level::Lv2);
 		cubyFire.setLevel(Level::Lv2);
 		cubyWater.setLevel(Level::Lv2);
 		cubyGrass.setLevel(Level::Lv2);
 		break;
 	case 3:
+		player->mapCubies.front()->setLevel(Level::Lv3);
 		cubyFire.setLevel(Level::Lv3);
 		cubyWater.setLevel(Level::Lv3);    
 		cubyGrass.setLevel(Level::Lv3);
 		break;
 	default:
+		player->mapCubies.front()->setLevel(Level::Lv1);
         cubyFire.setLevel(Level::Lv1);
         cubyWater.setLevel(Level::Lv1);
         cubyGrass.setLevel(Level::Lv1);
 		break;
 	}
-	player->mapCubies.front()->setXP(playerXP);
+	
 	if (opponent->getLevel() == Level::Lv1)
 	{
 		opponent->setHP(50);
@@ -708,7 +757,10 @@ extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
 			opponent->setName("Florichelou");
 		}
 	}
-
+    player->mapCubies.front()->setXP(playerXP);
+	cubyFire.setXP(playerXP);
+	cubyWater.setXP(playerXP);
+	cubyGrass.setXP(playerXP);
 
     return new Fight(std::move(player), std::move(opponent), cubyFire, cubyWater, cubyGrass);
 }

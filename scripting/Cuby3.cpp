@@ -83,27 +83,43 @@ public:
 
 	void UpdateCubyData(const std::string& type, int enemyLevel)
 	{
-		// Création de l'objet JSON
+		std::string filePath = "scripting/cubyData.json";
 		json data;
-		data["type"] = type;             // ex: "water"
-		data["enemyLevel"] = enemyLevel; // ex: 2
-		data["playerLevel"] = 1;         // ex: 5*
-		data["playerXP"] = 0;           // ex: 1500
 
-
-
-		// Ouverture et écriture dans le fichier json
-		std::ofstream file("scripting/cubyData.json");
-		if (file.is_open())
+		std::ifstream inputFile(filePath);
+		if (inputFile.is_open())
 		{
-			// dump(2) permet de formater le JSON avec une indentation de 2 espaces
-			file << data.dump(2);
-			file.close();
-			std::cout << "Fichier cubyData.json mis a jour avec succes !" << std::endl;
+			try {
+				inputFile >> data;
+				inputFile.close();
+			}
+			catch (json::parse_error& e) {
+				// Si le fichier est corrompu ou vide, on initialise des valeurs de secours
+				std::cerr << "Erreur de lecture JSON, initialisation par defaut." << std::endl;
+				data["playerLevel"] = 1;
+				data["playerXP"] = 0;
+			}
 		}
 		else
 		{
-			std::cerr << "Erreur lors de l'ouverture du fichier cubyData.json pour l'ecriture !" << std::endl;
+			//Securite si le fichier n'existe pas, on le cree avec des valeurs par defaut (probablement useless)
+			data["playerLevel"] = 1;
+			data["playerXP"] = 0;
+		}
+
+		data["type"] = type;
+		data["enemyLevel"] = enemyLevel;
+
+		std::ofstream outputFile(filePath);
+		if (outputFile.is_open())
+		{
+			outputFile << data.dump(2);
+			outputFile.close();
+			std::cout << "Fichier cubyData.json mis a jour (donnees joueur preservees) !" << std::endl;
+		}
+		else
+		{
+			std::cerr << "Erreur lors de l'ouverture du fichier pour l'ecriture !" << std::endl;
 		}
 	}
 
