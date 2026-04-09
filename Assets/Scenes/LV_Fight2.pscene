@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 302,
+            "EntityID": 19,
             "Name": "Fight",
             "NativeScript": {
                 "Enabled": true,
@@ -33,7 +33,7 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 303,
+            "EntityID": 20,
             "Name": "Cam",
             "NativeScript": {
                 "Enabled": true,
@@ -60,7 +60,7 @@
             }
         },
         {
-            "EntityID": 304,
+            "EntityID": 21,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -85,7 +85,7 @@
             }
         },
         {
-            "EntityID": 305,
+            "EntityID": 22,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -110,7 +110,7 @@
             }
         },
         {
-            "EntityID": 306,
+            "EntityID": 23,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -151,7 +151,7 @@
             }
         },
         {
-            "EntityID": 307,
+            "EntityID": 24,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"

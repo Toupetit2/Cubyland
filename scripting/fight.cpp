@@ -469,7 +469,7 @@ public:
                 }
 
 				UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
-                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_World.pscene");
             }
 		}
 		if (lose)
@@ -480,7 +480,7 @@ public:
                 enemyTurn = false;
                 showStats = false;
                 UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
-                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_World.pscene");
             }
 		}
 		if (ranAway)
@@ -492,7 +492,7 @@ public:
 				showAttackingDialogue = false;
 				showStats = false;
                 UpdateCubyData(std::stoi(opponent->getLevelString()), std::stoi(player->mapCubies.front()->getLevelString()), player->mapCubies.front()->getXP(), player->mapCubies.front()->getTypeString());
-                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_scene_test_charly.pscene");
+                engine->GetSystem<Engine::Systems::SceneSerializerSystem>()->RequestSceneDeserialization("Assets/Scenes/LV_World.pscene");
 			}
 		}
         ImGui::End();

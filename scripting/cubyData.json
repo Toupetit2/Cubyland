@@ -1,6 +1,6 @@
 {
-    "enemyLevel": 1,
+    "enemyLevel": 2,
     "playerLevel": 1,
     "playerXP": 0,
-    "type": "Eau"
+    "type": "Feu"
 }
