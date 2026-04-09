@@ -18,7 +18,7 @@
 using json = nlohmann::json;
 
 
-class Cuby1 : public Engine::Scripting::NativeScript {
+class Cuby3 : public Engine::Scripting::NativeScript {
 public:
 
 	Engine::ECS::Entity targetPlayer = Engine::ECS::NULL_ENTITY;
@@ -26,9 +26,9 @@ public:
 
 	int attaque = 0;
 	int hp = 0;
-	std::string name = "robert1";
-	std::string type = "fire";
-	int lv = 1;
+	std::string name = "robert3";
+	std::string type = "grass";
+	int lv = 3;
 
 
 	void OnInit() override {
@@ -52,9 +52,9 @@ public:
 
 	void FindSelf() {
 		for (auto e : registry->View<Engine::Components::Transform>()) {
-			if (registry->GetEntityName(e) == "cuby1") {
+			if (registry->GetEntityName(e) == "cuby3") {
 				targetSelf = e;
-				std::cout << "cuby1 trouver \n";
+				std::cout << "cuby3 trouver \n";
 				break;
 			}
 		}
@@ -112,5 +112,5 @@ public:
 
 
 extern "C" SCRIPT_API Engine::Scripting::NativeScript* CreateScript() {
-	return new Cuby1();
+	return new Cuby3();
 }

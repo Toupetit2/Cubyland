@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 45,
+            "EntityID": 49,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -19,14 +19,14 @@
                     0.0
                 ],
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    3.0,
+                    3.0,
+                    3.0
                 ]
             }
         },
         {
-            "EntityID": 46,
+            "EntityID": 50,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -67,7 +67,7 @@
             }
         },
         {
-            "EntityID": 47,
+            "EntityID": 51,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cone_mesh.pa"
@@ -75,7 +75,7 @@
             "Name": "player",
             "Transform": {
                 "Position": [
-                    0.3999999761581421,
+                    1.2000000476837158,
                     -0.20000000298023224,
                     -0.10000000894069672
                 ],
@@ -97,7 +97,7 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 48,
+            "EntityID": 52,
             "Name": "Main Camera",
             "NativeScript": {
                 "Enabled": true,
@@ -124,7 +124,7 @@
             }
         },
         {
-            "EntityID": 49,
+            "EntityID": 53,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -138,9 +138,71 @@
             },
             "Transform": {
                 "Position": [
-                    -0.30000001192092896,
+                    -0.5,
                     -0.20000001788139343,
-                    -0.10000000149011612
+                    -1.7999999523162842
+                ],
+                "Rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "Scale": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
+                ]
+            }
+        },
+        {
+            "EntityID": 54,
+            "MeshRenderer": {
+                "Active": true,
+                "Path": "Assets\\Default\\Cube_mesh.pa"
+            },
+            "Name": "cuby3",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/Cuby3.dll",
+                "Persistant": false,
+                "RunInEditor": false
+            },
+            "Transform": {
+                "Position": [
+                    -0.4000000059604645,
+                    -0.20000000298023224,
+                    1.7999999523162842
+                ],
+                "Rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ]
+            }
+        },
+        {
+            "EntityID": 55,
+            "MeshRenderer": {
+                "Active": true,
+                "Path": "Assets\\Default\\Cube_mesh.pa"
+            },
+            "Name": "cuby2",
+            "NativeScript": {
+                "Enabled": true,
+                "Path": "Scripts/Cuby2.dll",
+                "Persistant": false,
+                "RunInEditor": false
+            },
+            "Transform": {
+                "Position": [
+                    -0.5,
+                    -0.20000000298023224,
+                    0.0
                 ],
                 "Rotation": [
                     0.0,
