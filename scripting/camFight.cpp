@@ -31,7 +31,6 @@ public :
         for (auto e : registry->View<Engine::Components::Transform>()) {
             if (registry->GetEntityName(e) == "camObj") {
                 targetEntity = e;
-                std::cout << "nique ta mere 1\n";
                 break;
             }
         }
