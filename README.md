@@ -10,11 +10,23 @@ Par sécurité, dans le dossier scripting:
 - Copier l'intégralité
 - Ouvrir cubyData.json
 - Coller
+- Aller dans le dossier scripts (pas scripting!) et supprimer le contenu
 (Cela évite d'éventuelles données sauvegardées pendant les tests)
 Ouvrir PhotonEngine-Editor.exe
 Dans l'explorateur en bas à droite, double cliquer sur Scenes
-Cliquer sur LV_World.pscene
-Cliquer sur load (en bas)
+Cliquer sur LV_World.pscene puis sur load (en bas)
+Pour chaque objet listé ci-dessous, cliquer dessus et à droite de l'écran, cliquer sur recompile script (si jamais, les entités sont à gauche de l'écran)
+Cuby1
+Cuby2
+Cuby3
+Main Camera
+Sauvegarder la scene et la nommer LV_World (en haut à gauche, file -> save)
+Faire parreil dans LV_Fight2.pscene pour:
+Cam
+Fight
+Save et nommer LV_Fight2
+(ceci est dû à la structure du moteur)
+Load de nouveau LV_World.pscene
 Appuyer sur play
 
 Contrôles : ZQSD (dans la scène où vous contrôlez un cône), attention à bien être "dans" le jeu (cliquer dans le viewport, clic droit ou gauche et maintenir)
@@ -30,8 +42,6 @@ Si vous perdez ou fuyez, vous ne gagnez rien.
 Au bout de 100 points d'XP (2 victoires) vous gagnez 1 niveau et vos stats augmentent (ainsi que le nom du cuby)
 Lorsque le combat est terminé, vous revenez sur sur la scène d'avant et vous pouvez recommencer.
 
-En cas de crash: supprimer le contenus du dossier script (attention, pas scripting), puis copier le contenu du dossier src issu du dossier du moteur que vous
-avez extrait, et le coller dans le src du repo sur votre pc
-En cas de crash (après l'étape précédente), dans LV_World.pscene et LV_Fight2.pscene, depuis le moteur, regarder un a un les objets.
-S'il a un script (chemin qui finit par .dll, visible sur la droite), cliquer sur recompile script puis sauvegarder la scène une fois que tous les 
-scripts sont recompilés (file (en haut à droite), save scene, et écrire LE BON NOM DE SCENE (sans l'extension)).
+En cas de crash, copier le contenu (dans le dossier extrait du téléchargement) du dossier src et le coller dans le dossier src du repo (de notre jeu)
+
+En cas de problème, contacter le support
