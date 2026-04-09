@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "EntityID": 37,
+            "EntityID": 653,
             "Name": "Fight",
             "NativeScript": {
                 "Enabled": true,
@@ -33,7 +33,7 @@
                 "Fov": 80.0,
                 "NearPlane": 0.009999999776482582
             },
-            "EntityID": 38,
+            "EntityID": 654,
             "Name": "Cam",
             "NativeScript": {
                 "Enabled": true,
@@ -43,13 +43,13 @@
             },
             "Transform": {
                 "Position": [
-                    0.6000000238418579,
+                    0.10000002384185791,
                     0.09999994188547134,
-                    0.20000004768371582
+                    -0.5999999642372131
                 ],
                 "Rotation": [
                     0.0,
-                    -45.000003814697266,
+                    0.0,
                     0.0
                 ],
                 "Scale": [
@@ -60,7 +60,7 @@
             }
         },
         {
-            "EntityID": 39,
+            "EntityID": 655,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -68,13 +68,13 @@
             "Name": "Player_cuby",
             "Transform": {
                 "Position": [
-                    -0.699999988079071,
-                    0.10000000149011612,
-                    3.725290298461914e-08
+                    -0.10000000149011612,
+                    -0.10000000149011612,
+                    -0.30000001192092896
                 ],
                 "Rotation": [
                     0.0,
-                    -0.0,
+                    -24.199996948242188,
                     0.0
                 ],
                 "Scale": [
@@ -85,7 +85,7 @@
             }
         },
         {
-            "EntityID": 40,
+            "EntityID": 656,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Plane_mesh.pa"
@@ -94,12 +94,12 @@
             "Transform": {
                 "Position": [
                     0.0,
-                    0.0,
-                    -0.10000000149011612
+                    -0.20000000298023224,
+                    -1.0
                 ],
                 "Rotation": [
                     0.0,
-                    -0.0,
+                    -24.200000762939453,
                     0.0
                 ],
                 "Scale": [
@@ -110,7 +110,7 @@
             }
         },
         {
-            "EntityID": 41,
+            "EntityID": 657,
             "Light": {
                 "CastShadows": false,
                 "Color": [
@@ -123,9 +123,9 @@
                     -1.0,
                     0.0
                 ],
-                "Intensity": 3.0,
+                "Intensity": 3.9000000953674316,
                 "OrthoSize": 15.0,
-                "Range": 5.0,
+                "Range": 7.5,
                 "ShadowFar": 30.0,
                 "ShadowNear": 0.10000000149011612,
                 "SpotAngle": 45.0,
@@ -136,11 +136,11 @@
                 "Position": [
                     0.0,
                     0.0,
-                    0.0
+                    -0.7000000476837158
                 ],
                 "Rotation": [
                     0.0,
-                    0.0,
+                    -0.0,
                     0.0
                 ],
                 "Scale": [
@@ -151,7 +151,7 @@
             }
         },
         {
-            "EntityID": 42,
+            "EntityID": 658,
             "MeshRenderer": {
                 "Active": true,
                 "Path": "Assets\\Default\\Cube_mesh.pa"
@@ -159,38 +159,13 @@
             "Name": "Opponent",
             "Transform": {
                 "Position": [
-                    0.7000000476837158,
-                    0.10000000894069672,
-                    0.0
+                    0.800000011920929,
+                    -0.10000000149011612,
+                    -1.2999999523162842
                 ],
                 "Rotation": [
                     0.0,
-                    -0.0,
-                    0.0
-                ],
-                "Scale": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            }
-        },
-        {
-            "EntityID": 43,
-            "MeshRenderer": {
-                "Active": true,
-                "Path": "Assets\\Default\\Cube_mesh.pa"
-            },
-            "Name": "camObj",
-            "Transform": {
-                "Position": [
-                    -0.699999988079071,
-                    0.0,
-                    0.30000001192092896
-                ],
-                "Rotation": [
-                    0.0,
-                    -0.0,
+                    -24.199996948242188,
                     0.0
                 ],
                 "Scale": [
